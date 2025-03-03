@@ -26,6 +26,17 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Update common conversions section based on active tab
             updateCommonConversions(tabId);
+            
+            // Ensure the current tab's conversion is performed
+            if (tabId === 'weight') {
+                convertWeight();
+            } else if (tabId === 'length') {
+                convertLength();
+            } else if (tabId === 'volume') {
+                convertVolume();
+            } else if (tabId === 'temperature') {
+                convertTemp();
+            }
         });
     });
 
@@ -416,10 +427,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     volumeFrom.addEventListener('change', function() {
+        // Keep the last modified field as the source of truth
         convertVolume();
     });
     
     volumeTo.addEventListener('change', function() {
+        // Keep the last modified field as the source of truth
         convertVolume();
     });
     
@@ -565,13 +578,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     tempFrom.addEventListener('change', function() {
+        // Keep the last modified field as the source of truth
         convertTemp();
     });
     
     tempTo.addEventListener('change', function() {
+        // Keep the last modified field as the source of truth
         convertTemp();
     });
     
-    // Initialize temperature conversion
+    // Initialize all converters
+    convertWeight();
+    convertLength();
+    convertVolume();
     convertTemp();
 });
