@@ -36,6 +36,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 convertVolume();
             } else if (tabId === 'temperature') {
                 convertTemp();
+            } else if (tabId === 'data') {
+                convertData();
+            } else if (tabId === 'calculator') {
+                // No specific initialization needed for calculator beyond what's in the setup
             }
         });
     });
@@ -185,6 +189,26 @@ document.addEventListener('DOMContentLoaded', function() {
                     <li>°F = (°C × 9/5) + 32</li>
                     <li>°C = (°F − 32) × 5/9</li>
                     <li>K = °C + 273.15</li>
+                `;
+                break;
+            case 'data':
+                commonConversionsTitle.textContent = 'Common Data Size Conversions';
+                commonConversionsList.innerHTML = `
+                    <li>1 KB = 1,000 bytes</li>
+                    <li>1 MB = 1,000 KB</li>
+                    <li>1 GB = 1,000 MB</li>
+                    <li>1 KiB = 1,024 bytes</li>
+                    <li>1 MiB = 1,024 KiB</li>
+                `;
+                break;
+            case 'calculator':
+                commonConversionsTitle.textContent = 'Common Math Shortcuts';
+                commonConversionsList.innerHTML = `
+                    <li>% of a number: multiply by the percentage, then divide by 100</li>
+                    <li>Square root: use √ button or raise to power 0.5</li>
+                    <li>Percentage increase: (new - old) / old × 100</li>
+                    <li>Percentage decrease: (old - new) / old × 100</li>
+                    <li>To add tax: multiply by (1 + tax rate)</li>
                 `;
                 break;
         }
@@ -592,4 +616,309 @@ document.addEventListener('DOMContentLoaded', function() {
     convertLength();
     convertVolume();
     convertTemp();
+    
+    // Data size conversion functionality
+    const dataInput = document.getElementById('data-input');
+    const dataFrom = document.getElementById('data-from');
+    const dataTo = document.getElementById('data-to');
+    const dataResult = document.getElementById('data-result');
+    const dataFormula = document.getElementById('data-formula');
+    
+    // Track which data input was last modified
+    let dataLastModified = 'input';
+    
+    // Conversion rates (to bytes as base unit)
+    // For decimal (SI) units: 1 KB = 1000 bytes
+    // For binary units: 1 KiB = 1024 bytes
+    const dataConversions = {
+        // Decimal (SI) units
+        b: 1,
+        kb: 1000,
+        mb: 1000000,
+        gb: 1000000000,
+        tb: 1000000000000,
+        pb: 1000000000000000,
+        
+        // Binary units
+        kib: 1024,
+        mib: 1048576,          // 1024^2
+        gib: 1073741824,       // 1024^3
+        tib: 1099511627776,    // 1024^4
+        pib: 1125899906842624  // 1024^5
+    };
+    
+    // Perform data size conversion from input to result
+    function convertDataFromInput() {
+        const fromUnit = dataFrom.value;
+        const toUnit = dataTo.value;
+        const inputValue = parseFloat(dataInput.value);
+        
+        if (isNaN(inputValue)) {
+            dataResult.value = '';
+            return;
+        }
+        
+        // Convert input to bytes first (base unit), then to target unit
+        const valueInBytes = inputValue * dataConversions[fromUnit];
+        const result = valueInBytes / dataConversions[toUnit];
+        
+        // Display with appropriate precision
+        dataResult.value = formatResult(result);
+        
+        // Update formula display
+        updateDataFormula(fromUnit, toUnit);
+    }
+    
+    // Perform data size conversion from result to input
+    function convertDataFromResult() {
+        const fromUnit = dataFrom.value;
+        const toUnit = dataTo.value;
+        const resultValue = parseFloat(dataResult.value);
+        
+        if (isNaN(resultValue)) {
+            dataInput.value = '';
+            return;
+        }
+        
+        // Convert result to bytes first (base unit), then to source unit
+        const valueInBytes = resultValue * dataConversions[toUnit];
+        const input = valueInBytes / dataConversions[fromUnit];
+        
+        // Display with appropriate precision
+        dataInput.value = formatResult(input);
+        
+        // Update formula display
+        updateDataFormula(fromUnit, toUnit);
+    }
+    
+    // Wrapper function to determine which data conversion to perform
+    function convertData() {
+        if (dataLastModified === 'input') {
+            convertDataFromInput();
+        } else {
+            convertDataFromResult();
+        }
+    }
+    
+    // Update data conversion formula display
+    function updateDataFormula(fromUnit, toUnit) {
+        if (fromUnit === toUnit) {
+            dataFormula.textContent = `Formula: No conversion needed (same units)`;
+            return;
+        }
+        
+        // Calculate the conversion factor between the two units
+        const conversionFactor = dataConversions[fromUnit] / dataConversions[toUnit];
+        
+        dataFormula.textContent = `Formula: 1 ${fromUnit.toUpperCase()} = ${formatResult(conversionFactor)} ${toUnit.toUpperCase()}`;
+    }
+    
+    // Event listeners for data conversion
+    dataInput.addEventListener('input', function() {
+        dataLastModified = 'input';
+        convertData();
+    });
+    
+    dataResult.addEventListener('input', function() {
+        dataLastModified = 'result';
+        convertData();
+    });
+    
+    dataFrom.addEventListener('change', function() {
+        // Keep the last modified field as the source of truth
+        convertData();
+    });
+    
+    dataTo.addEventListener('change', function() {
+        // Keep the last modified field as the source of truth
+        convertData();
+    });
+    
+    // Initialize data conversion
+    convertData();
+    
+    // Calculator functionality
+    const calculatorResult = document.getElementById('calculator-result');
+    const calculatorKeys = document.querySelector('.calculator-keys');
+    
+    let displayValue = '0';
+    let firstOperand = null;
+    let waitingForSecondOperand = false;
+    let operator = null;
+    
+    // Update the display
+    function updateCalculatorDisplay() {
+        calculatorResult.value = displayValue;
+    }
+    
+    // Handle digit input
+    function inputDigit(digit) {
+        if (waitingForSecondOperand) {
+            displayValue = digit;
+            waitingForSecondOperand = false;
+        } else {
+            // Overwrite displayValue if it's '0', otherwise append
+            displayValue = displayValue === '0' ? digit : displayValue + digit;
+        }
+    }
+    
+    // Handle decimal point
+    function inputDecimal() {
+        // If waiting for second operand, start it with '0.'
+        if (waitingForSecondOperand) {
+            displayValue = '0.';
+            waitingForSecondOperand = false;
+            return;
+        }
+        
+        // Add a decimal point only if one doesn't already exist
+        if (!displayValue.includes('.')) {
+            displayValue += '.';
+        }
+    }
+    
+    // Handle operators
+    function handleOperator(nextOperator) {
+        // Convert current display value to number
+        const inputValue = parseFloat(displayValue);
+        
+        // If there's a pending operator and we were waiting for second operand
+        if (operator && waitingForSecondOperand) {
+            // Just update the operator and exit
+            operator = nextOperator;
+            return;
+        }
+        
+        // If there's no first operand yet, store current value
+        if (firstOperand === null) {
+            firstOperand = inputValue;
+        } else if (operator) {
+            // If we already have first operand and operator, perform the calculation
+            const result = performCalculation();
+            // Round to avoid floating point issues
+            displayValue = `${parseFloat(result.toFixed(7))}`;
+            firstOperand = result;
+        }
+        
+        waitingForSecondOperand = true;
+        operator = nextOperator;
+    }
+    
+    // Perform calculation based on operator
+    function performCalculation() {
+        const inputValue = parseFloat(displayValue);
+        
+        if (operator === 'add') {
+            return firstOperand + inputValue;
+        } else if (operator === 'subtract') {
+            return firstOperand - inputValue;
+        } else if (operator === 'multiply') {
+            return firstOperand * inputValue;
+        } else if (operator === 'divide') {
+            if (inputValue === 0) {
+                // Handle division by zero
+                alert('Cannot divide by zero');
+                resetCalculator();
+                return 0;
+            }
+            return firstOperand / inputValue;
+        }
+        
+        // If no operator matches, return the input value
+        return inputValue;
+    }
+    
+    // Handle percentage
+    function handlePercentage() {
+        const inputValue = parseFloat(displayValue);
+        
+        if (operator && firstOperand !== null) {
+            // If we're calculating with a previous value
+            // For + and -, treat percent as percent of first operand
+            // For * and /, just divide by 100
+            if (operator === 'add' || operator === 'subtract') {
+                displayValue = `${parseFloat((firstOperand * (inputValue / 100)).toFixed(7))}`;
+            } else {
+                displayValue = `${parseFloat((inputValue / 100).toFixed(7))}`;
+            }
+        } else {
+            // Simple percentage - just divide by 100
+            displayValue = `${parseFloat((inputValue / 100).toFixed(7))}`;
+        }
+    }
+    
+    // Toggle sign
+    function toggleSign() {
+        displayValue = (parseFloat(displayValue) * -1).toString();
+    }
+    
+    // Reset calculator
+    function resetCalculator() {
+        displayValue = '0';
+        firstOperand = null;
+        waitingForSecondOperand = false;
+        operator = null;
+    }
+    
+    // Event listener for calculator keys
+    calculatorKeys.addEventListener('click', (event) => {
+        const target = event.target;
+        
+        // Exit if the clicked element isn't a button
+        if (!target.matches('button')) {
+            return;
+        }
+        
+        // Handle different key types
+        if (target.classList.contains('key-operator')) {
+            handleOperator(target.dataset.action);
+            updateCalculatorDisplay();
+            return;
+        }
+        
+        if (target.classList.contains('key-equals')) {
+            if (operator && !waitingForSecondOperand) {
+                const result = performCalculation();
+                displayValue = `${parseFloat(result.toFixed(7))}`;
+                firstOperand = null;
+                waitingForSecondOperand = false;
+                operator = null;
+            }
+            updateCalculatorDisplay();
+            return;
+        }
+        
+        if (target.classList.contains('key-clear')) {
+            resetCalculator();
+            updateCalculatorDisplay();
+            return;
+        }
+        
+        if (target.classList.contains('key-sign')) {
+            toggleSign();
+            updateCalculatorDisplay();
+            return;
+        }
+        
+        if (target.classList.contains('key-percent')) {
+            handlePercentage();
+            updateCalculatorDisplay();
+            return;
+        }
+        
+        if (target.classList.contains('key-decimal')) {
+            inputDecimal();
+            updateCalculatorDisplay();
+            return;
+        }
+        
+        // Handle number keys
+        if (target.classList.contains('key-number')) {
+            inputDigit(target.dataset.digit);
+            updateCalculatorDisplay();
+        }
+    });
+    
+    // Initialize calculator display
+    updateCalculatorDisplay();
 });
