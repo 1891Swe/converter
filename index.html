@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Measurement Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Measurement Converter</h1>
+        </header>
+
+        <div class="tab-container">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="weight">Weight</button>
+                <button class="tab-btn" data-tab="length">Length</button>
+                <button class="tab-btn" data-tab="volume">Volume</button>
+                <button class="tab-btn" data-tab="temperature">Temperature</button>
+            </div>
+
+            <div class="tab-content active" id="weight">
+                <h2>Weight Converter</h2>
+                <div class="converter-container">
+                    <div class="input-group">
+                        <input type="number" id="weight-input" placeholder="Enter value" value="1">
+                        <select id="weight-from">
+                            <option value="kg">Kilograms (kg)</option>
+                            <option value="g">Grams (g)</option>
+                            <option value="mg">Milligrams (mg)</option>
+                            <option value="lb">Pounds (lb)</option>
+                            <option value="oz">Ounces (oz)</option>
+                            <option value="st">Stone (st)</option>
+                            <option value="ton">Metric Tons (t)</option>
+                        </select>
+                    </div>
+                    <div class="equals">=</div>
+                    <div class="input-group">
+                        <input type="number" id="weight-result" readonly>
+                        <select id="weight-to">
+                            <option value="kg">Kilograms (kg)</option>
+                            <option value="g">Grams (g)</option>
+                            <option value="mg">Milligrams (mg)</option>
+                            <option value="lb" selected>Pounds (lb)</option>
+                            <option value="oz">Ounces (oz)</option>
+                            <option value="st">Stone (st)</option>
+                            <option value="ton">Metric Tons (t)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="formula-container">
+                    <p id="weight-formula">Formula: 1 kg = 2.20462 lb</p>
+                </div>
+            </div>
+
+            <div class="tab-content" id="length">
+                <h2>Length Converter</h2>
+                <p>Length conversion coming soon...</p>
+            </div>
+
+            <div class="tab-content" id="volume">
+                <h2>Volume Converter</h2>
+                <p>Volume conversion coming soon...</p>
+            </div>
+
+            <div class="tab-content" id="temperature">
+                <h2>Temperature Converter</h2>
+                <p>Temperature conversion coming soon...</p>
+            </div>
+        </div>
+
+        <div class="common-conversions">
+            <h3>Common Weight Conversions</h3>
+            <ul id="common-weight-conversions">
+                <li>1 kg = 2.20462 lb</li>
+                <li>1 lb = 0.453592 kg</li>
+                <li>1 kg = 1000 g</li>
+                <li>1 lb = 16 oz</li>
+                <li>1 stone = 14 lb</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Measurement Converter | All Rights Reserved</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
