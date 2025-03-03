@@ -313,4 +313,265 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize length conversion
     convertLength();
+    
+    // Volume conversion functionality
+    const volumeInput = document.getElementById('volume-input');
+    const volumeFrom = document.getElementById('volume-from');
+    const volumeTo = document.getElementById('volume-to');
+    const volumeResult = document.getElementById('volume-result');
+    const volumeFormula = document.getElementById('volume-formula');
+    
+    // Track which volume input was last modified
+    let volumeLastModified = 'input';
+    
+    // Conversion rates (to liters as base unit)
+    const volumeConversions = {
+        l: 1,
+        ml: 0.001,
+        m3: 1000,
+        gal: 3.78541,
+        qt: 0.946353,
+        pt: 0.473176,
+        cup: 0.236588,
+        floz: 0.0295735,
+        tbsp: 0.0147868,
+        tsp: 0.00492892
+    };
+    
+    // Perform volume conversion from input to result
+    function convertVolumeFromInput() {
+        const fromUnit = volumeFrom.value;
+        const toUnit = volumeTo.value;
+        const inputValue = parseFloat(volumeInput.value);
+        
+        if (isNaN(inputValue)) {
+            volumeResult.value = '';
+            return;
+        }
+        
+        // Convert input to liters first (base unit), then to target unit
+        const valueInLiters = inputValue * volumeConversions[fromUnit];
+        const result = valueInLiters / volumeConversions[toUnit];
+        
+        // Display with appropriate precision
+        volumeResult.value = formatResult(result);
+        
+        // Update formula display
+        updateVolumeFormula(fromUnit, toUnit);
+    }
+    
+    // Perform volume conversion from result to input
+    function convertVolumeFromResult() {
+        const fromUnit = volumeFrom.value;
+        const toUnit = volumeTo.value;
+        const resultValue = parseFloat(volumeResult.value);
+        
+        if (isNaN(resultValue)) {
+            volumeInput.value = '';
+            return;
+        }
+        
+        // Convert result to liters first (base unit), then to source unit
+        const valueInLiters = resultValue * volumeConversions[toUnit];
+        const input = valueInLiters / volumeConversions[fromUnit];
+        
+        // Display with appropriate precision
+        volumeInput.value = formatResult(input);
+        
+        // Update formula display
+        updateVolumeFormula(fromUnit, toUnit);
+    }
+    
+    // Wrapper function to determine which volume conversion to perform
+    function convertVolume() {
+        if (volumeLastModified === 'input') {
+            convertVolumeFromInput();
+        } else {
+            convertVolumeFromResult();
+        }
+    }
+    
+    // Update volume conversion formula display
+    function updateVolumeFormula(fromUnit, toUnit) {
+        if (fromUnit === toUnit) {
+            volumeFormula.textContent = `Formula: No conversion needed (same units)`;
+            return;
+        }
+        
+        // Calculate the conversion factor between the two units
+        const conversionFactor = volumeConversions[fromUnit] / volumeConversions[toUnit];
+        
+        volumeFormula.textContent = `Formula: 1 ${fromUnit} = ${formatResult(conversionFactor)} ${toUnit}`;
+    }
+    
+    // Event listeners for volume conversion
+    volumeInput.addEventListener('input', function() {
+        volumeLastModified = 'input';
+        convertVolume();
+    });
+    
+    volumeResult.addEventListener('input', function() {
+        volumeLastModified = 'result';
+        convertVolume();
+    });
+    
+    volumeFrom.addEventListener('change', function() {
+        convertVolume();
+    });
+    
+    volumeTo.addEventListener('change', function() {
+        convertVolume();
+    });
+    
+    // Initialize volume conversion
+    convertVolume();
+    
+    // Temperature conversion functionality
+    const tempInput = document.getElementById('temp-input');
+    const tempFrom = document.getElementById('temp-from');
+    const tempTo = document.getElementById('temp-to');
+    const tempResult = document.getElementById('temp-result');
+    const tempFormula = document.getElementById('temp-formula');
+    
+    // Track which temperature input was last modified
+    let tempLastModified = 'input';
+    
+    // Temperature conversion is special - can't use simple ratios
+    // We'll convert everything to Celsius first, then to target unit
+    
+    // Convert from any temperature unit to Celsius
+    function toCelsius(value, unit) {
+        switch(unit) {
+            case 'c': return value; // Already Celsius
+            case 'f': return (value - 32) * 5/9; // Fahrenheit to Celsius
+            case 'k': return value - 273.15; // Kelvin to Celsius
+            case 'r': return (value - 491.67) * 5/9; // Rankine to Celsius
+            default: return value;
+        }
+    }
+    
+    // Convert from Celsius to any temperature unit
+    function fromCelsius(value, unit) {
+        switch(unit) {
+            case 'c': return value; // Keep as Celsius
+            case 'f': return (value * 9/5) + 32; // Celsius to Fahrenheit
+            case 'k': return value + 273.15; // Celsius to Kelvin
+            case 'r': return (value + 273.15) * 9/5; // Celsius to Rankine
+            default: return value;
+        }
+    }
+    
+    // Perform temperature conversion from input to result
+    function convertTempFromInput() {
+        const fromUnit = tempFrom.value;
+        const toUnit = tempTo.value;
+        const inputValue = parseFloat(tempInput.value);
+        
+        if (isNaN(inputValue)) {
+            tempResult.value = '';
+            return;
+        }
+        
+        // Convert input to Celsius first, then to target unit
+        const valueInCelsius = toCelsius(inputValue, fromUnit);
+        const result = fromCelsius(valueInCelsius, toUnit);
+        
+        // Display with appropriate precision for temperature
+        tempResult.value = result.toFixed(2);
+        
+        // Update formula display
+        updateTempFormula(fromUnit, toUnit);
+    }
+    
+    // Perform temperature conversion from result to input
+    function convertTempFromResult() {
+        const fromUnit = tempFrom.value;
+        const toUnit = tempTo.value;
+        const resultValue = parseFloat(tempResult.value);
+        
+        if (isNaN(resultValue)) {
+            tempInput.value = '';
+            return;
+        }
+        
+        // Convert result to Celsius first, then to source unit
+        const valueInCelsius = toCelsius(resultValue, toUnit);
+        const input = fromCelsius(valueInCelsius, fromUnit);
+        
+        // Display with appropriate precision for temperature
+        tempInput.value = input.toFixed(2);
+        
+        // Update formula display
+        updateTempFormula(fromUnit, toUnit);
+    }
+    
+    // Wrapper function to determine which temperature conversion to perform
+    function convertTemp() {
+        if (tempLastModified === 'input') {
+            convertTempFromInput();
+        } else {
+            convertTempFromResult();
+        }
+    }
+    
+    // Update temperature conversion formula display
+    function updateTempFormula(fromUnit, toUnit) {
+        if (fromUnit === toUnit) {
+            tempFormula.textContent = `Formula: No conversion needed (same units)`;
+            return;
+        }
+        
+        // Show the appropriate formula based on the conversion
+        let formula = '';
+        
+        if (fromUnit === 'c' && toUnit === 'f') {
+            formula = '°F = (°C × 9/5) + 32';
+        } else if (fromUnit === 'f' && toUnit === 'c') {
+            formula = '°C = (°F − 32) × 5/9';
+        } else if (fromUnit === 'c' && toUnit === 'k') {
+            formula = 'K = °C + 273.15';
+        } else if (fromUnit === 'k' && toUnit === 'c') {
+            formula = '°C = K − 273.15';
+        } else if (fromUnit === 'f' && toUnit === 'k') {
+            formula = 'K = (°F − 32) × 5/9 + 273.15';
+        } else if (fromUnit === 'k' && toUnit === 'f') {
+            formula = '°F = (K − 273.15) × 9/5 + 32';
+        } else if (fromUnit === 'c' && toUnit === 'r') {
+            formula = '°R = (°C + 273.15) × 9/5';
+        } else if (fromUnit === 'r' && toUnit === 'c') {
+            formula = '°C = (°R × 5/9) − 273.15';
+        } else if (fromUnit === 'f' && toUnit === 'r') {
+            formula = '°R = °F + 459.67';
+        } else if (fromUnit === 'r' && toUnit === 'f') {
+            formula = '°F = °R − 459.67';
+        } else if (fromUnit === 'k' && toUnit === 'r') {
+            formula = '°R = K × 9/5';
+        } else if (fromUnit === 'r' && toUnit === 'k') {
+            formula = 'K = °R × 5/9';
+        }
+        
+        tempFormula.textContent = `Formula: ${formula}`;
+    }
+    
+    // Event listeners for temperature conversion
+    tempInput.addEventListener('input', function() {
+        tempLastModified = 'input';
+        convertTemp();
+    });
+    
+    tempResult.addEventListener('input', function() {
+        tempLastModified = 'result';
+        convertTemp();
+    });
+    
+    tempFrom.addEventListener('change', function() {
+        convertTemp();
+    });
+    
+    tempTo.addEventListener('change', function() {
+        convertTemp();
+    });
+    
+    // Initialize temperature conversion
+    convertTemp();
 });
