@@ -3,35 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Measurement Converter</title>
+    <title>Measurement Converter | Convert Weight, Length, Volume & More</title>
+    <meta name="description" content="Free online measurement converter tool. Convert kg to lb, meters to feet, liters to gallons, Celsius to Fahrenheit and more instantly.">
+    <meta name="keywords" content="measurement converter, unit converter, weight converter, length converter, temperature converter, volume converter, data size converter">
+    <link rel="canonical" href="https://yourwebsite.com/index.html">
+    <meta property="og:title" content="Convert Anything: Online Measurement Converter Tool">
+    <meta property="og:description" content="Free online tool to convert weight, length, volume, temperature and data units instantly.">
+    <meta property="og:image" content="https://yourwebsite.com/images/converter-preview.jpg">
+    <meta property="og:url" content="https://yourwebsite.com">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="styles.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Convert Anything",
+      "description": "Free online measurement converter for weight, length, volume, temperature and data units.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>CONVERT ANYTHING</h1>
-            <h2>Weight - Lenght - Volume - Temperature - Data</h2>
+            <h1>CONVERT ANYTHING: Weight, Length, Volume & More</h1>
+            <h2>Fast & Free Unit Conversion for Everyday Needs</h2>
         </header>
 
         <div class="tab-container">
             <div class="tabs">
                 <button class="tab-btn active" data-tab="weight">
-                    <i class="icon weight-icon"></i> Weight
+                    <i class="icon weight-icon" aria-hidden="true"></i> Weight
                 </button>
                 <button class="tab-btn" data-tab="length">
-                    <i class="icon ruler-icon"></i> Length
+                    <i class="icon ruler-icon" aria-hidden="true"></i> Length
                 </button>
                 <button class="tab-btn" data-tab="volume">
-                    <i class="icon volume-icon"></i> Volume
+                    <i class="icon volume-icon" aria-hidden="true"></i> Volume
                 </button>
                 <button class="tab-btn" data-tab="temperature">
-                    <i class="icon temp-icon"></i> Temperature
+                    <i class="icon temp-icon" aria-hidden="true"></i> Temperature
                 </button>
                 <button class="tab-btn" data-tab="data">
-                    <i class="icon data-icon"></i> Data
+                    <i class="icon data-icon" aria-hidden="true"></i> Data
                 </button>
                 <button class="tab-btn" data-tab="calculator">
-                    <i class="icon calc-icon"></i> Calculator
+                    <i class="icon calc-icon" aria-hidden="true"></i> Calculator
                 </button>
             </div>
 
@@ -39,8 +62,8 @@
                 <h2>Weight Converter</h2>
                 <div class="converter-container">
                     <div class="input-group">
-                        <input type="number" id="weight-input" placeholder="Enter value" value="1">
-                        <select id="weight-from">
+                        <input type="number" id="weight-input" placeholder="Enter value" value="1" aria-label="Weight input value">
+                        <select id="weight-from" aria-label="Convert from weight unit">
                             <option value="kg">Kilograms (kg)</option>
                             <option value="g">Grams (g)</option>
                             <option value="mg">Milligrams (mg)</option>
@@ -52,8 +75,8 @@
                     </div>
                     <div class="equals">=</div>
                     <div class="input-group">
-                        <input type="number" id="weight-result" placeholder="Enter value">
-                        <select id="weight-to">
+                        <input type="number" id="weight-result" placeholder="Result" aria-label="Weight conversion result">
+                        <select id="weight-to" aria-label="Convert to weight unit">
                             <option value="kg">Kilograms (kg)</option>
                             <option value="g">Grams (g)</option>
                             <option value="mg">Milligrams (mg)</option>
@@ -73,8 +96,8 @@
                 <h2>Length Converter</h2>
                 <div class="converter-container">
                     <div class="input-group">
-                        <input type="number" id="length-input" placeholder="Enter value" value="1">
-                        <select id="length-from">
+                        <input type="number" id="length-input" placeholder="Enter value" value="1" aria-label="Length input value">
+                        <select id="length-from" aria-label="Convert from length unit">
                             <option value="m">Meters (m)</option>
                             <option value="km">Kilometers (km)</option>
                             <option value="cm">Centimeters (cm)</option>
@@ -87,8 +110,8 @@
                     </div>
                     <div class="equals">=</div>
                     <div class="input-group">
-                        <input type="number" id="length-result" placeholder="Enter value">
-                        <select id="length-to">
+                        <input type="number" id="length-result" placeholder="Result" aria-label="Length conversion result">
+                        <select id="length-to" aria-label="Convert to length unit">
                             <option value="m">Meters (m)</option>
                             <option value="km">Kilometers (km)</option>
                             <option value="cm">Centimeters (cm)</option>
@@ -109,8 +132,8 @@
                 <h2>Volume Converter</h2>
                 <div class="converter-container">
                     <div class="input-group">
-                        <input type="number" id="volume-input" placeholder="Enter value" value="1">
-                        <select id="volume-from">
+                        <input type="number" id="volume-input" placeholder="Enter value" value="1" aria-label="Volume input value">
+                        <select id="volume-from" aria-label="Convert from volume unit">
                             <option value="l">Liters (L)</option>
                             <option value="ml">Milliliters (mL)</option>
                             <option value="m3">Cubic Meters (m³)</option>
@@ -125,8 +148,8 @@
                     </div>
                     <div class="equals">=</div>
                     <div class="input-group">
-                        <input type="number" id="volume-result" placeholder="Enter value">
-                        <select id="volume-to">
+                        <input type="number" id="volume-result" placeholder="Result" aria-label="Volume conversion result">
+                        <select id="volume-to" aria-label="Convert to volume unit">
                             <option value="l">Liters (L)</option>
                             <option value="ml">Milliliters (mL)</option>
                             <option value="m3">Cubic Meters (m³)</option>
@@ -149,8 +172,8 @@
                 <h2>Temperature Converter</h2>
                 <div class="converter-container">
                     <div class="input-group">
-                        <input type="number" id="temp-input" placeholder="Enter value" value="0">
-                        <select id="temp-from">
+                        <input type="number" id="temp-input" placeholder="Enter value" value="0" aria-label="Temperature input value">
+                        <select id="temp-from" aria-label="Convert from temperature unit">
                             <option value="c">Celsius (°C)</option>
                             <option value="f">Fahrenheit (°F)</option>
                             <option value="k">Kelvin (K)</option>
@@ -159,8 +182,8 @@
                     </div>
                     <div class="equals">=</div>
                     <div class="input-group">
-                        <input type="number" id="temp-result" placeholder="Enter value">
-                        <select id="temp-to">
+                        <input type="number" id="temp-result" placeholder="Result" aria-label="Temperature conversion result">
+                        <select id="temp-to" aria-label="Convert to temperature unit">
                             <option value="c">Celsius (°C)</option>
                             <option value="f" selected>Fahrenheit (°F)</option>
                             <option value="k">Kelvin (K)</option>
@@ -177,8 +200,8 @@
                 <h2>Data Size Converter</h2>
                 <div class="converter-container">
                     <div class="input-group">
-                        <input type="number" id="data-input" placeholder="Enter value" value="1">
-                        <select id="data-from">
+                        <input type="number" id="data-input" placeholder="Enter value" value="1" aria-label="Data size input value">
+                        <select id="data-from" aria-label="Convert from data size unit">
                             <option value="b">Bytes (B)</option>
                             <option value="kb">Kilobytes (KB)</option>
                             <option value="mb" selected>Megabytes (MB)</option>
@@ -194,8 +217,8 @@
                     </div>
                     <div class="equals">=</div>
                     <div class="input-group">
-                        <input type="number" id="data-result" placeholder="Enter value">
-                        <select id="data-to">
+                        <input type="number" id="data-result" placeholder="Result" aria-label="Data size conversion result">
+                        <select id="data-to" aria-label="Convert to data size unit">
                             <option value="b">Bytes (B)</option>
                             <option value="kb">Kilobytes (KB)</option>
                             <option value="mb">Megabytes (MB)</option>
@@ -219,32 +242,32 @@
                 <h2>Calculator</h2>
                 <div class="calculator-container">
                     <div class="calculator-display">
-                        <input type="text" id="calculator-result" readonly value="0">
+                        <input type="text" id="calculator-result" readonly value="0" aria-label="Calculator display">
                     </div>
                     <div class="calculator-keys">
-                        <button class="calculator-key key-clear" data-action="clear">AC</button>
-                        <button class="calculator-key key-sign" data-action="sign">±</button>
-                        <button class="calculator-key key-percent" data-action="percent">%</button>
-                        <button class="calculator-key key-operator" data-action="divide">÷</button>
+                        <button class="calculator-key key-clear" data-action="clear" aria-label="Clear">AC</button>
+                        <button class="calculator-key key-sign" data-action="sign" aria-label="Change sign">±</button>
+                        <button class="calculator-key key-percent" data-action="percent" aria-label="Percent">%</button>
+                        <button class="calculator-key key-operator" data-action="divide" aria-label="Divide">÷</button>
                         
-                        <button class="calculator-key key-number" data-digit="7">7</button>
-                        <button class="calculator-key key-number" data-digit="8">8</button>
-                        <button class="calculator-key key-number" data-digit="9">9</button>
-                        <button class="calculator-key key-operator" data-action="multiply">×</button>
+                        <button class="calculator-key key-number" data-digit="7" aria-label="7">7</button>
+                        <button class="calculator-key key-number" data-digit="8" aria-label="8">8</button>
+                        <button class="calculator-key key-number" data-digit="9" aria-label="9">9</button>
+                        <button class="calculator-key key-operator" data-action="multiply" aria-label="Multiply">×</button>
                         
-                        <button class="calculator-key key-number" data-digit="4">4</button>
-                        <button class="calculator-key key-number" data-digit="5">5</button>
-                        <button class="calculator-key key-number" data-digit="6">6</button>
-                        <button class="calculator-key key-operator" data-action="subtract">−</button>
+                        <button class="calculator-key key-number" data-digit="4" aria-label="4">4</button>
+                        <button class="calculator-key key-number" data-digit="5" aria-label="5">5</button>
+                        <button class="calculator-key key-number" data-digit="6" aria-label="6">6</button>
+                        <button class="calculator-key key-operator" data-action="subtract" aria-label="Subtract">−</button>
                         
-                        <button class="calculator-key key-number" data-digit="1">1</button>
-                        <button class="calculator-key key-number" data-digit="2">2</button>
-                        <button class="calculator-key key-number" data-digit="3">3</button>
-                        <button class="calculator-key key-operator" data-action="add">+</button>
+                        <button class="calculator-key key-number" data-digit="1" aria-label="1">1</button>
+                        <button class="calculator-key key-number" data-digit="2" aria-label="2">2</button>
+                        <button class="calculator-key key-number" data-digit="3" aria-label="3">3</button>
+                        <button class="calculator-key key-operator" data-action="add" aria-label="Add">+</button>
                         
-                        <button class="calculator-key key-number key-zero" data-digit="0">0</button>
-                        <button class="calculator-key key-decimal" data-action="decimal">.</button>
-                        <button class="calculator-key key-equals" data-action="calculate">=</button>
+                        <button class="calculator-key key-number key-zero" data-digit="0" aria-label="0">0</button>
+                        <button class="calculator-key key-decimal" data-action="decimal" aria-label="Decimal point">.</button>
+                        <button class="calculator-key key-equals" data-action="calculate" aria-label="Equals">=</button>
                     </div>
                 </div>
                 <div class="calculator-info">
@@ -260,19 +283,66 @@
         </div>
 
         <div class="common-conversions">
-            <h3>Common Weight Conversions</h3>
-            <ul id="common-weight-conversions">
-                <li>1 kg = 2.20462 lb</li>
-                <li>1 lb = 0.453592 kg</li>
-                <li>1 kg = 1000 g</li>
-                <li>1 lb = 16 oz</li>
-                <li>1 stone = 14 lb</li>
-            </ul>
+            <h3>Common Conversions</h3>
+            <div id="common-conversions-content">
+                <div class="conversion-category active" id="common-weight-conversions">
+                    <h4>Weight Conversions</h4>
+                    <ul>
+                        <li>1 kg = 2.20462 lb</li>
+                        <li>1 lb = 0.453592 kg</li>
+                        <li>1 kg = 1000 g</li>
+                        <li>1 lb = 16 oz</li>
+                        <li>1 stone = 14 lb</li>
+                    </ul>
+                </div>
+            </div>
         </div>
+
+        <section class="faq">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <h3>How do I convert kilograms to pounds?</h3>
+                <p>To convert kilograms to pounds, multiply the weight in kilograms by 2.20462. For example, 10 kg = 22.0462 pounds.</p>
+            </div>
+            <div class="faq-item">
+                <h3>How do I convert Celsius to Fahrenheit?</h3>
+                <p>To convert Celsius to Fahrenheit, multiply the temperature by 9/5 and add 32. The formula is: °F = (°C × 9/5) + 32</p>
+            </div>
+            <div class="faq-item">
+                <h3>What is the difference between KB and KiB?</h3>
+                <p>KB (kilobyte) is 1,000 bytes, while KiB (kibibyte) is 1,024 bytes. KB uses the decimal system (powers of 10), while KiB uses the binary system (powers of 2).</p>
+            </div>
+            <div class="faq-item">
+                <h3>How accurate are the conversions on this website?</h3>
+                <p>Our conversions use standard conversion factors and provide results with high precision. For scientific or critical applications, we recommend verifying with specialized equipment.</p>
+            </div>
+        </section>
     </div>
 
     <footer>
-        <p>&copy; 2025 Convert Anything | All Rights Reserved</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Convert Anything</h3>
+                <p>A free online tool for quick and accurate unit conversions. Perfect for students, professionals, and anyone needing to convert measurements.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#weight">Weight Converter</a></li>
+                    <li><a href="#length">Length Converter</a></li>
+                    <li><a href="#volume">Volume Converter</a></li>
+                    <li><a href="#temperature">Temperature Converter</a></li>
+                    <li><a href="#data">Data Size Converter</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Have suggestions or found an issue? <a href="mailto:contact@convertanything.com">Email us</a></p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Convert Anything | All Rights Reserved</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>
