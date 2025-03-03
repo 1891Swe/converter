@@ -26,6 +26,12 @@
                 <button class="tab-btn" data-tab="temperature">
                     <i class="icon temp-icon"></i> Temperature
                 </button>
+                <button class="tab-btn" data-tab="data">
+                    <i class="icon data-icon"></i> Data
+                </button>
+                <button class="tab-btn" data-tab="calculator">
+                    <i class="icon calc-icon"></i> Calculator
+                </button>
             </div>
 
             <div class="tab-content active" id="weight">
@@ -163,6 +169,91 @@
                 </div>
                 <div class="formula-container">
                     <p id="temp-formula">Formula: °F = (°C × 9/5) + 32</p>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="data">
+                <h2>Data Size Converter</h2>
+                <div class="converter-container">
+                    <div class="input-group">
+                        <input type="number" id="data-input" placeholder="Enter value" value="1">
+                        <select id="data-from">
+                            <option value="b">Bytes (B)</option>
+                            <option value="kb">Kilobytes (KB)</option>
+                            <option value="mb" selected>Megabytes (MB)</option>
+                            <option value="gb">Gigabytes (GB)</option>
+                            <option value="tb">Terabytes (TB)</option>
+                            <option value="pb">Petabytes (PB)</option>
+                            <option value="kib">Kibibytes (KiB)</option>
+                            <option value="mib">Mebibytes (MiB)</option>
+                            <option value="gib">Gibibytes (GiB)</option>
+                            <option value="tib">Tebibytes (TiB)</option>
+                            <option value="pib">Pebibytes (PiB)</option>
+                        </select>
+                    </div>
+                    <div class="equals">=</div>
+                    <div class="input-group">
+                        <input type="number" id="data-result" placeholder="Enter value">
+                        <select id="data-to">
+                            <option value="b">Bytes (B)</option>
+                            <option value="kb">Kilobytes (KB)</option>
+                            <option value="mb">Megabytes (MB)</option>
+                            <option value="gb" selected>Gigabytes (GB)</option>
+                            <option value="tb">Terabytes (TB)</option>
+                            <option value="pb">Petabytes (PB)</option>
+                            <option value="kib">Kibibytes (KiB)</option>
+                            <option value="mib">Mebibytes (MiB)</option>
+                            <option value="gib">Gibibytes (GiB)</option>
+                            <option value="tib">Tebibytes (TiB)</option>
+                            <option value="pib">Pebibytes (PiB)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="formula-container">
+                    <p id="data-formula">Formula: 1 MB = 0.001 GB</p>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="calculator">
+                <h2>Calculator</h2>
+                <div class="calculator-container">
+                    <div class="calculator-display">
+                        <input type="text" id="calculator-result" readonly value="0">
+                    </div>
+                    <div class="calculator-keys">
+                        <button class="calculator-key key-clear" data-action="clear">AC</button>
+                        <button class="calculator-key key-sign" data-action="sign">±</button>
+                        <button class="calculator-key key-percent" data-action="percent">%</button>
+                        <button class="calculator-key key-operator" data-action="divide">÷</button>
+                        
+                        <button class="calculator-key key-number" data-digit="7">7</button>
+                        <button class="calculator-key key-number" data-digit="8">8</button>
+                        <button class="calculator-key key-number" data-digit="9">9</button>
+                        <button class="calculator-key key-operator" data-action="multiply">×</button>
+                        
+                        <button class="calculator-key key-number" data-digit="4">4</button>
+                        <button class="calculator-key key-number" data-digit="5">5</button>
+                        <button class="calculator-key key-number" data-digit="6">6</button>
+                        <button class="calculator-key key-operator" data-action="subtract">−</button>
+                        
+                        <button class="calculator-key key-number" data-digit="1">1</button>
+                        <button class="calculator-key key-number" data-digit="2">2</button>
+                        <button class="calculator-key key-number" data-digit="3">3</button>
+                        <button class="calculator-key key-operator" data-action="add">+</button>
+                        
+                        <button class="calculator-key key-number key-zero" data-digit="0">0</button>
+                        <button class="calculator-key key-decimal" data-action="decimal">.</button>
+                        <button class="calculator-key key-equals" data-action="calculate">=</button>
+                    </div>
+                </div>
+                <div class="calculator-info">
+                    <h3>Calculator Features</h3>
+                    <ul>
+                        <li>Basic arithmetic operations: addition, subtraction, multiplication, division</li>
+                        <li>Percentage calculations</li>
+                        <li>Positive/negative number toggle</li>
+                        <li>Clear function (AC) to reset calculator</li>
+                    </ul>
                 </div>
             </div>
         </div>
