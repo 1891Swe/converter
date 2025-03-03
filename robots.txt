@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+Sitemap: https://yourwebsite.com/sitemap.xml
+
+# Allow all search engines to crawl all content
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Disallow access to specific areas if needed
+# Disallow: /admin/
+# Disallow: /private/
