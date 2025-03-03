@@ -100,12 +100,70 @@
 
             <div class="tab-content" id="volume">
                 <h2>Volume Converter</h2>
-                <p>Volume conversion coming soon...</p>
+                <div class="converter-container">
+                    <div class="input-group">
+                        <input type="number" id="volume-input" placeholder="Enter value" value="1">
+                        <select id="volume-from">
+                            <option value="l">Liters (L)</option>
+                            <option value="ml">Milliliters (mL)</option>
+                            <option value="m3">Cubic Meters (m³)</option>
+                            <option value="gal">Gallons (US) (gal)</option>
+                            <option value="qt">Quarts (US) (qt)</option>
+                            <option value="pt">Pints (US) (pt)</option>
+                            <option value="cup">Cups (US) (cup)</option>
+                            <option value="floz">Fluid Ounces (US) (fl oz)</option>
+                            <option value="tbsp">Tablespoons (US) (tbsp)</option>
+                            <option value="tsp">Teaspoons (US) (tsp)</option>
+                        </select>
+                    </div>
+                    <div class="equals">=</div>
+                    <div class="input-group">
+                        <input type="number" id="volume-result" placeholder="Enter value">
+                        <select id="volume-to">
+                            <option value="l">Liters (L)</option>
+                            <option value="ml">Milliliters (mL)</option>
+                            <option value="m3">Cubic Meters (m³)</option>
+                            <option value="gal" selected>Gallons (US) (gal)</option>
+                            <option value="qt">Quarts (US) (qt)</option>
+                            <option value="pt">Pints (US) (pt)</option>
+                            <option value="cup">Cups (US) (cup)</option>
+                            <option value="floz">Fluid Ounces (US) (fl oz)</option>
+                            <option value="tbsp">Tablespoons (US) (tbsp)</option>
+                            <option value="tsp">Teaspoons (US) (tsp)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="formula-container">
+                    <p id="volume-formula">Formula: 1 L = 0.264172 gal</p>
+                </div>
             </div>
 
             <div class="tab-content" id="temperature">
                 <h2>Temperature Converter</h2>
-                <p>Temperature conversion coming soon...</p>
+                <div class="converter-container">
+                    <div class="input-group">
+                        <input type="number" id="temp-input" placeholder="Enter value" value="0">
+                        <select id="temp-from">
+                            <option value="c">Celsius (°C)</option>
+                            <option value="f">Fahrenheit (°F)</option>
+                            <option value="k">Kelvin (K)</option>
+                            <option value="r">Rankine (°R)</option>
+                        </select>
+                    </div>
+                    <div class="equals">=</div>
+                    <div class="input-group">
+                        <input type="number" id="temp-result" placeholder="Enter value">
+                        <select id="temp-to">
+                            <option value="c">Celsius (°C)</option>
+                            <option value="f" selected>Fahrenheit (°F)</option>
+                            <option value="k">Kelvin (K)</option>
+                            <option value="r">Rankine (°R)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="formula-container">
+                    <p id="temp-formula">Formula: °F = (°C × 9/5) + 32</p>
+                </div>
             </div>
         </div>
 
