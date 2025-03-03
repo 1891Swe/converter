@@ -1,4 +1,27 @@
-/* General styling */
+/* Common conversions */
+.common-conversions {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+ul {
+    list-style-position: inside;
+    margin-left: 10px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #7f8c8d;
+    font-size: 14px;
+}/* General styling */
 * {
     margin: 0;
     padding: 0;
@@ -103,6 +126,14 @@ h3 {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 4v10.54c1.24.77 2 2.17 2 3.71 0 2.48-2.02 4.5-4.5 4.5S7 20.73 7 18.25c0-1.54.76-2.94 2-3.71V4c0-1.1.9-2 2.5-2s2.5.9 2.5 2z'/%3E%3Ccircle cx='11.5' cy='18.25' r='2.5'/%3E%3Cpath d='M11.5 12V7'/%3E%3C/svg%3E");
 }
 
+.data-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='4' width='16' height='12' rx='2' ry='2'/%3E%3Cline x1='2' y1='20' x2='22' y2='20'/%3E%3Cline x1='12' y1='16' x2='12' y2='20'/%3E%3C/svg%3E");
+}
+
+.calc-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='2' width='16' height='20' rx='2' ry='2'/%3E%3Cline x1='8' y1='6' x2='16' y2='6'/%3E%3Cline x1='8' y1='10' x2='10' y2='10'/%3E%3Cline x1='12' y1='10' x2='14' y2='10'/%3E%3Cline x1='16' y1='10' x2='16' y2='10'/%3E%3Cline x1='8' y1='14' x2='10' y2='14'/%3E%3Cline x1='12' y1='14' x2='14' y2='14'/%3E%3Cline x1='16' y1='14' x2='16' y2='14'/%3E%3Cline x1='8' y1='18' x2='10' y2='18'/%3E%3Cline x1='12' y1='18' x2='14' y2='18'/%3E%3Cline x1='16' y1='18' x2='16' y2='18'/%3E%3C/svg%3E");
+}
+
 .tab-content {
     display: none;
     padding: 30px;
@@ -158,29 +189,92 @@ input[readonly] {
     margin-bottom: 20px;
 }
 
-/* Common conversions */
-.common-conversions {
-    background-color: #fff;
+/* Calculator styling */
+.calculator-container {
+    max-width: 320px;
+    margin: 0 auto 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.calculator-display {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px 15px;
+    text-align: right;
+}
+
+#calculator-result {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: right;
+}
+
+.calculator-keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1px;
+    background-color: #ddd;
+}
+
+.calculator-key {
+    border: none;
+    background-color: white;
+    padding: 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.calculator-key:hover {
+    background-color: #f0f0f0;
+}
+
+.calculator-key:active {
+    background-color: #e0e0e0;
+}
+
+.key-operator {
+    background-color: #f0f0f0;
+}
+
+.key-equals {
+    background-color: #3498db;
+    color: white;
+}
+
+.key-equals:hover {
+    background-color: #2980b9;
+}
+
+.key-clear, .key-sign, .key-percent {
+    background-color: #e0e0e0;
+}
+
+.key-zero {
+    grid-column: span 2;
+}
+
+.calculator-info {
+    margin-top: 30px;
+    background-color: #f0f8ff;
+    padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
 }
 
-ul {
-    list-style-position: inside;
-    margin-left: 10px;
+.calculator-info h3 {
+    margin-bottom: 10px;
 }
 
-li {
-    margin-bottom: 8px;
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 20px;
-    color: #7f8c8d;
-    font-size: 14px;
+.calculator-info ul {
+    list-style: disc;
+    margin-left: 25px;
 }
 
 /* Responsive adjustments */
