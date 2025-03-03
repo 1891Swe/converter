@@ -756,6 +756,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the first tab's common conversions
     updateCommonConversions('weight');
     
+    // Add event listeners for tab links in the footer
+    document.querySelectorAll('.tab-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const tabId = this.getAttribute('data-tab');
+            const tabButton = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+            if (tabButton) {
+                tabButton.click();
+                // Scroll to the tab container
+                document.querySelector('.tab-container').scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+    
     // Add event listeners for SEO tracking
     document.querySelectorAll('.tab-btn').forEach(button => {
         button.addEventListener('click', function() {
