@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const tabContents = document.querySelectorAll('.tab-content');
     const commonConversionsTitle = document.querySelector('.common-conversions h3');
     const commonConversionsList = document.getElementById('common-weight-conversions');
+    
+    // Track which tab is currently active
+    let activeTab = 'weight';
 
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -13,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Show corresponding tab content
             const tabId = button.dataset.tab;
+            activeTab = tabId;
             tabContents.forEach(content => {
                 content.classList.remove('active');
                 if (content.id === tabId) {
@@ -199,4 +203,114 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize with default conversion
     lastModified = 'input';
     convertWeight();
+    
+    // Length conversion functionality
+    const lengthInput = document.getElementById('length-input');
+    const lengthFrom = document.getElementById('length-from');
+    const lengthTo = document.getElementById('length-to');
+    const lengthResult = document.getElementById('length-result');
+    const lengthFormula = document.getElementById('length-formula');
+    
+    // Track which length input was last modified
+    let lengthLastModified = 'input';
+    
+    // Conversion rates (to meters as base unit)
+    const lengthConversions = {
+        m: 1,
+        km: 1000,
+        cm: 0.01,
+        mm: 0.001,
+        ft: 0.3048,
+        in: 0.0254,
+        yd: 0.9144,
+        mi: 1609.344
+    };
+    
+    // Perform length conversion from input to result
+    function convertLengthFromInput() {
+        const fromUnit = lengthFrom.value;
+        const toUnit = lengthTo.value;
+        const inputValue = parseFloat(lengthInput.value);
+        
+        if (isNaN(inputValue)) {
+            lengthResult.value = '';
+            return;
+        }
+        
+        // Convert input to meters first (base unit), then to target unit
+        const valueInMeters = inputValue * lengthConversions[fromUnit];
+        const result = valueInMeters / lengthConversions[toUnit];
+        
+        // Display with appropriate precision
+        lengthResult.value = formatResult(result);
+        
+        // Update formula display
+        updateLengthFormula(fromUnit, toUnit);
+    }
+    
+    // Perform length conversion from result to input
+    function convertLengthFromResult() {
+        const fromUnit = lengthFrom.value;
+        const toUnit = lengthTo.value;
+        const resultValue = parseFloat(lengthResult.value);
+        
+        if (isNaN(resultValue)) {
+            lengthInput.value = '';
+            return;
+        }
+        
+        // Convert result to meters first (base unit), then to source unit
+        const valueInMeters = resultValue * lengthConversions[toUnit];
+        const input = valueInMeters / lengthConversions[fromUnit];
+        
+        // Display with appropriate precision
+        lengthInput.value = formatResult(input);
+        
+        // Update formula display
+        updateLengthFormula(fromUnit, toUnit);
+    }
+    
+    // Wrapper function to determine which length conversion to perform
+    function convertLength() {
+        if (lengthLastModified === 'input') {
+            convertLengthFromInput();
+        } else {
+            convertLengthFromResult();
+        }
+    }
+    
+    // Update length conversion formula display
+    function updateLengthFormula(fromUnit, toUnit) {
+        if (fromUnit === toUnit) {
+            lengthFormula.textContent = `Formula: No conversion needed (same units)`;
+            return;
+        }
+        
+        // Calculate the conversion factor between the two units
+        const conversionFactor = lengthConversions[fromUnit] / lengthConversions[toUnit];
+        
+        lengthFormula.textContent = `Formula: 1 ${fromUnit} = ${formatResult(conversionFactor)} ${toUnit}`;
+    }
+    
+    // Event listeners for length conversion
+    lengthInput.addEventListener('input', function() {
+        lengthLastModified = 'input';
+        convertLength();
+    });
+    
+    lengthResult.addEventListener('input', function() {
+        lengthLastModified = 'result';
+        convertLength();
+    });
+    
+    lengthFrom.addEventListener('change', function() {
+        convertLength();
+    });
+    
+    lengthTo.addEventListener('change', function() {
+        convertLength();
+    });
+    
+    // Initialize length conversion
+    convertLength();
 });
