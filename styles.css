@@ -61,6 +61,9 @@ h3 {
     cursor: pointer;
     flex-grow: 1;
     transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .tab-btn:hover {
@@ -70,6 +73,34 @@ h3 {
 .tab-btn.active {
     background-color: #2980b9;
     font-weight: bold;
+}
+
+/* Tab icons */
+.icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: text-bottom;
+}
+
+.weight-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 8h-1V6c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z'/%3E%3Cpath d='M9 6h6v2H9z'/%3E%3Cpath d='M12 12v6'/%3E%3Cpath d='M9 15h6'/%3E%3C/svg%3E");
+}
+
+.ruler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 6H2v12h20V6z'/%3E%3Cpath d='M6 12h4'/%3E%3Cpath d='M14 12h4'/%3E%3Cpath d='M6 9h2'/%3E%3Cpath d='M10 9h2'/%3E%3Cpath d='M14 9h2'/%3E%3Cpath d='M18 9h2'/%3E%3Cpath d='M6 15h2'/%3E%3Cpath d='M10 15h2'/%3E%3Cpath d='M14 15h2'/%3E%3Cpath d='M18 15h2'/%3E%3C/svg%3E");
+}
+
+.volume-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 2h6l3 7v13H6V9l3-7z'/%3E%3Cpath d='M6 9h12'/%3E%3Cpath d='M10 14c1 0 2 .5 2 2'/%3E%3C/svg%3E");
+}
+
+.temp-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 4v10.54c1.24.77 2 2.17 2 3.71 0 2.48-2.02 4.5-4.5 4.5S7 20.73 7 18.25c0-1.54.76-2.94 2-3.71V4c0-1.1.9-2 2.5-2s2.5.9 2.5 2z'/%3E%3Ccircle cx='11.5' cy='18.25' r='2.5'/%3E%3Cpath d='M11.5 12V7'/%3E%3C/svg%3E");
 }
 
 .tab-content {
