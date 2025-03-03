@@ -56,7 +56,38 @@
 
             <div class="tab-content" id="length">
                 <h2>Length Converter</h2>
-                <p>Length conversion coming soon...</p>
+                <div class="converter-container">
+                    <div class="input-group">
+                        <input type="number" id="length-input" placeholder="Enter value" value="1">
+                        <select id="length-from">
+                            <option value="m">Meters (m)</option>
+                            <option value="km">Kilometers (km)</option>
+                            <option value="cm">Centimeters (cm)</option>
+                            <option value="mm">Millimeters (mm)</option>
+                            <option value="ft">Feet (ft)</option>
+                            <option value="in">Inches (in)</option>
+                            <option value="yd">Yards (yd)</option>
+                            <option value="mi">Miles (mi)</option>
+                        </select>
+                    </div>
+                    <div class="equals">=</div>
+                    <div class="input-group">
+                        <input type="number" id="length-result" placeholder="Enter value">
+                        <select id="length-to">
+                            <option value="m">Meters (m)</option>
+                            <option value="km">Kilometers (km)</option>
+                            <option value="cm">Centimeters (cm)</option>
+                            <option value="mm">Millimeters (mm)</option>
+                            <option value="ft" selected>Feet (ft)</option>
+                            <option value="in">Inches (in)</option>
+                            <option value="yd">Yards (yd)</option>
+                            <option value="mi">Miles (mi)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="formula-container">
+                    <p id="length-formula">Formula: 1 m = 3.28084 ft</p>
+                </div>
             </div>
 
             <div class="tab-content" id="volume">
