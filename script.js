@@ -1,924 +1,794 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Tab functionality
+    // Tab Switching
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
-    const commonConversionsTitle = document.querySelector('.common-conversions h3');
-    const commonConversionsList = document.getElementById('common-weight-conversions');
     
-    // Track which tab is currently active
-    let activeTab = 'weight';
-
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Update active tab button
+            // Remove active class from all buttons and contents
             tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked button and corresponding content
             button.classList.add('active');
+            const tabId = button.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
             
-            // Show corresponding tab content
-            const tabId = button.dataset.tab;
-            activeTab = tabId;
-            tabContents.forEach(content => {
-                content.classList.remove('active');
-                if (content.id === tabId) {
-                    content.classList.add('active');
-                }
-            });
-            
-            // Update common conversions section based on active tab
+            // Update common conversions based on active tab
             updateCommonConversions(tabId);
-            
-            // Ensure the current tab's conversion is performed
-            if (tabId === 'weight') {
-                convertWeight();
-            } else if (tabId === 'length') {
-                convertLength();
-            } else if (tabId === 'volume') {
-                convertVolume();
-            } else if (tabId === 'temperature') {
-                convertTemp();
-            } else if (tabId === 'data') {
-                convertData();
-            } else if (tabId === 'calculator') {
-                // No specific initialization needed for calculator beyond what's in the setup
-            }
         });
     });
-
-    // Weight conversion functionality
-    const weightInput = document.getElementById('weight-input');
-    const weightFrom = document.getElementById('weight-from');
-    const weightTo = document.getElementById('weight-to');
-    const weightResult = document.getElementById('weight-result');
-    const weightFormula = document.getElementById('weight-formula');
     
-    // Track which input was last modified
-    let lastModified = 'input'; // Default to input field
-
-    // Conversion rates (to kg as base unit)
-    const weightConversions = {
-        kg: 1,
-        g: 0.001,
-        mg: 0.000001,
-        lb: 0.45359237,
-        oz: 0.0283495231,
-        st: 6.35029318,
-        ton: 1000
-    };
-
-    // Perform weight conversion from input to result
-    function convertFromInput() {
-        const fromUnit = weightFrom.value;
-        const toUnit = weightTo.value;
-        const inputValue = parseFloat(weightInput.value);
-
-        if (isNaN(inputValue)) {
-            weightResult.value = '';
-            return;
-        }
-
-        // Convert input to kg first (base unit), then to target unit
-        const valueInKg = inputValue * weightConversions[fromUnit];
-        const result = valueInKg / weightConversions[toUnit];
-        
-        // Display with appropriate precision
-        weightResult.value = formatResult(result);
-        
-        // Update formula display
-        updateWeightFormula(fromUnit, toUnit);
-    }
-    
-    // Perform weight conversion from result to input
-    function convertFromResult() {
-        const fromUnit = weightFrom.value;
-        const toUnit = weightTo.value;
-        const resultValue = parseFloat(weightResult.value);
-
-        if (isNaN(resultValue)) {
-            weightInput.value = '';
-            return;
-        }
-
-        // Convert result to kg first (base unit), then to source unit
-        const valueInKg = resultValue * weightConversions[toUnit];
-        const input = valueInKg / weightConversions[fromUnit];
-        
-        // Display with appropriate precision
-        weightInput.value = formatResult(input);
-        
-        // Update formula display
-        updateWeightFormula(fromUnit, toUnit);
-    }
-    
-    // Wrapper function to determine which conversion to perform
-    function convertWeight() {
-        if (lastModified === 'input') {
-            convertFromInput();
-        } else {
-            convertFromResult();
-        }
-    }
-
-    // Format result to appropriate decimal places
-    function formatResult(value) {
-        if (value >= 1000) {
-            return value.toFixed(1);
-        } else if (value >= 10) {
-            return value.toFixed(2);
-        } else if (value >= 0.1) {
-            return value.toFixed(3);
-        } else if (value >= 0.01) {
-            return value.toFixed(4);
-        } else if (value >= 0.001) {
-            return value.toFixed(5);
-        } else {
-            return value.toFixed(6);
-        }
-    }
-
-    // Update weight conversion formula display
-    function updateWeightFormula(fromUnit, toUnit) {
-        if (fromUnit === toUnit) {
-            weightFormula.textContent = `Formula: No conversion needed (same units)`;
-            return;
-        }
-
-        // Calculate the conversion factor between the two units
-        const conversionFactor = weightConversions[fromUnit] / weightConversions[toUnit];
-        
-        weightFormula.textContent = `Formula: 1 ${fromUnit} = ${formatResult(conversionFactor)} ${toUnit}`;
-    }
-
-    // Update common conversions based on active tab
+    // Update common conversions function
     function updateCommonConversions(tabId) {
-        switch(tabId) {
-            case 'weight':
-                commonConversionsTitle.textContent = 'Common Weight Conversions';
-                commonConversionsList.innerHTML = `
-                    <li>1 kg = 2.20462 lb</li>
-                    <li>1 lb = 0.453592 kg</li>
-                    <li>1 kg = 1000 g</li>
-                    <li>1 lb = 16 oz</li>
-                    <li>1 stone = 14 lb</li>
-                `;
-                break;
-            case 'length':
-                commonConversionsTitle.textContent = 'Common Length Conversions';
-                commonConversionsList.innerHTML = `
-                    <li>1 m = 3.28084 ft</li>
-                    <li>1 ft = 0.3048 m</li>
-                    <li>1 km = 0.621371 miles</li>
-                    <li>1 inch = 2.54 cm</li>
-                    <li>1 yard = 0.9144 m</li>
-                `;
-                break;
-            case 'volume':
-                commonConversionsTitle.textContent = 'Common Volume Conversions';
-                commonConversionsList.innerHTML = `
-                    <li>1 liter = 0.264172 gallons (US)</li>
-                    <li>1 gallon (US) = 3.78541 liters</li>
-                    <li>1 liter = 1000 ml</li>
-                    <li>1 cup = 236.588 ml</li>
-                    <li>1 pint = 0.473176 liters</li>
-                `;
-                break;
-            case 'temperature':
-                commonConversionsTitle.textContent = 'Common Temperature Conversions';
-                commonConversionsList.innerHTML = `
-                    <li>0°C = 32°F</li>
-                    <li>100°C = 212°F</li>
-                    <li>°F = (°C × 9/5) + 32</li>
-                    <li>°C = (°F − 32) × 5/9</li>
-                    <li>K = °C + 273.15</li>
-                `;
-                break;
-            case 'data':
-                commonConversionsTitle.textContent = 'Common Data Size Conversions';
-                commonConversionsList.innerHTML = `
-                    <li>1 KB = 1,000 bytes</li>
-                    <li>1 MB = 1,000 KB</li>
-                    <li>1 GB = 1,000 MB</li>
-                    <li>1 KiB = 1,024 bytes</li>
-                    <li>1 MiB = 1,024 KiB</li>
-                `;
-                break;
-            case 'calculator':
-                commonConversionsTitle.textContent = 'Common Math Shortcuts';
-                commonConversionsList.innerHTML = `
-                    <li>% of a number: multiply by the percentage, then divide by 100</li>
-                    <li>Square root: use √ button or raise to power 0.5</li>
-                    <li>Percentage increase: (new - old) / old × 100</li>
-                    <li>Percentage decrease: (old - new) / old × 100</li>
-                    <li>To add tax: multiply by (1 + tax rate)</li>
-                `;
-                break;
-        }
-    }
-
-    // Event listeners for weight conversion
-    weightInput.addEventListener('input', function() {
-        lastModified = 'input';
-        convertWeight();
-    });
-    
-    weightResult.addEventListener('input', function() {
-        lastModified = 'result';
-        convertWeight();
-    });
-    
-    weightFrom.addEventListener('change', function() {
-        // Always recalculate based on the last modified field
-        convertWeight();
-    });
-    
-    weightTo.addEventListener('change', function() {
-        // Always recalculate based on the last modified field
-        convertWeight();
-    });
-
-    // Initialize with default conversion
-    lastModified = 'input';
-    convertWeight();
-    
-    // Length conversion functionality
-    const lengthInput = document.getElementById('length-input');
-    const lengthFrom = document.getElementById('length-from');
-    const lengthTo = document.getElementById('length-to');
-    const lengthResult = document.getElementById('length-result');
-    const lengthFormula = document.getElementById('length-formula');
-    
-    // Track which length input was last modified
-    let lengthLastModified = 'input';
-    
-    // Conversion rates (to meters as base unit)
-    const lengthConversions = {
-        m: 1,
-        km: 1000,
-        cm: 0.01,
-        mm: 0.001,
-        ft: 0.3048,
-        in: 0.0254,
-        yd: 0.9144,
-        mi: 1609.344
-    };
-    
-    // Perform length conversion from input to result
-    function convertLengthFromInput() {
-        const fromUnit = lengthFrom.value;
-        const toUnit = lengthTo.value;
-        const inputValue = parseFloat(lengthInput.value);
+        const conversionCategories = document.querySelectorAll('.conversion-category');
+        conversionCategories.forEach(category => {
+            category.classList.remove('active');
+        });
         
-        if (isNaN(inputValue)) {
-            lengthResult.value = '';
-            return;
-        }
+        const commonConversionsContent = document.getElementById('common-conversions-content');
         
-        // Convert input to meters first (base unit), then to target unit
-        const valueInMeters = inputValue * lengthConversions[fromUnit];
-        const result = valueInMeters / lengthConversions[toUnit];
+        // Check if category exists, if not create it
+        let categoryElement = document.getElementById(`common-${tabId}-conversions`);
         
-        // Display with appropriate precision
-        lengthResult.value = formatResult(result);
-        
-        // Update formula display
-        updateLengthFormula(fromUnit, toUnit);
-    }
-    
-    // Perform length conversion from result to input
-    function convertLengthFromResult() {
-        const fromUnit = lengthFrom.value;
-        const toUnit = lengthTo.value;
-        const resultValue = parseFloat(lengthResult.value);
-        
-        if (isNaN(resultValue)) {
-            lengthInput.value = '';
-            return;
-        }
-        
-        // Convert result to meters first (base unit), then to source unit
-        const valueInMeters = resultValue * lengthConversions[toUnit];
-        const input = valueInMeters / lengthConversions[fromUnit];
-        
-        // Display with appropriate precision
-        lengthInput.value = formatResult(input);
-        
-        // Update formula display
-        updateLengthFormula(fromUnit, toUnit);
-    }
-    
-    // Wrapper function to determine which length conversion to perform
-    function convertLength() {
-        if (lengthLastModified === 'input') {
-            convertLengthFromInput();
-        } else {
-            convertLengthFromResult();
-        }
-    }
-    
-    // Update length conversion formula display
-    function updateLengthFormula(fromUnit, toUnit) {
-        if (fromUnit === toUnit) {
-            lengthFormula.textContent = `Formula: No conversion needed (same units)`;
-            return;
-        }
-        
-        // Calculate the conversion factor between the two units
-        const conversionFactor = lengthConversions[fromUnit] / lengthConversions[toUnit];
-        
-        lengthFormula.textContent = `Formula: 1 ${fromUnit} = ${formatResult(conversionFactor)} ${toUnit}`;
-    }
-    
-    // Event listeners for length conversion
-    lengthInput.addEventListener('input', function() {
-        lengthLastModified = 'input';
-        convertLength();
-    });
-    
-    lengthResult.addEventListener('input', function() {
-        lengthLastModified = 'result';
-        convertLength();
-    });
-    
-    lengthFrom.addEventListener('change', function() {
-        convertLength();
-    });
-    
-    lengthTo.addEventListener('change', function() {
-        convertLength();
-    });
-    
-    // Initialize length conversion
-    convertLength();
-    
-    // Volume conversion functionality
-    const volumeInput = document.getElementById('volume-input');
-    const volumeFrom = document.getElementById('volume-from');
-    const volumeTo = document.getElementById('volume-to');
-    const volumeResult = document.getElementById('volume-result');
-    const volumeFormula = document.getElementById('volume-formula');
-    
-    // Track which volume input was last modified
-    let volumeLastModified = 'input';
-    
-    // Conversion rates (to liters as base unit)
-    const volumeConversions = {
-        l: 1,
-        ml: 0.001,
-        m3: 1000,
-        gal: 3.78541,
-        qt: 0.946353,
-        pt: 0.473176,
-        cup: 0.236588,
-        floz: 0.0295735,
-        tbsp: 0.0147868,
-        tsp: 0.00492892
-    };
-    
-    // Perform volume conversion from input to result
-    function convertVolumeFromInput() {
-        const fromUnit = volumeFrom.value;
-        const toUnit = volumeTo.value;
-        const inputValue = parseFloat(volumeInput.value);
-        
-        if (isNaN(inputValue)) {
-            volumeResult.value = '';
-            return;
-        }
-        
-        // Convert input to liters first (base unit), then to target unit
-        const valueInLiters = inputValue * volumeConversions[fromUnit];
-        const result = valueInLiters / volumeConversions[toUnit];
-        
-        // Display with appropriate precision
-        volumeResult.value = formatResult(result);
-        
-        // Update formula display
-        updateVolumeFormula(fromUnit, toUnit);
-    }
-    
-    // Perform volume conversion from result to input
-    function convertVolumeFromResult() {
-        const fromUnit = volumeFrom.value;
-        const toUnit = volumeTo.value;
-        const resultValue = parseFloat(volumeResult.value);
-        
-        if (isNaN(resultValue)) {
-            volumeInput.value = '';
-            return;
-        }
-        
-        // Convert result to liters first (base unit), then to source unit
-        const valueInLiters = resultValue * volumeConversions[toUnit];
-        const input = valueInLiters / volumeConversions[fromUnit];
-        
-        // Display with appropriate precision
-        volumeInput.value = formatResult(input);
-        
-        // Update formula display
-        updateVolumeFormula(fromUnit, toUnit);
-    }
-    
-    // Wrapper function to determine which volume conversion to perform
-    function convertVolume() {
-        if (volumeLastModified === 'input') {
-            convertVolumeFromInput();
-        } else {
-            convertVolumeFromResult();
-        }
-    }
-    
-    // Update volume conversion formula display
-    function updateVolumeFormula(fromUnit, toUnit) {
-        if (fromUnit === toUnit) {
-            volumeFormula.textContent = `Formula: No conversion needed (same units)`;
-            return;
-        }
-        
-        // Calculate the conversion factor between the two units
-        const conversionFactor = volumeConversions[fromUnit] / volumeConversions[toUnit];
-        
-        volumeFormula.textContent = `Formula: 1 ${fromUnit} = ${formatResult(conversionFactor)} ${toUnit}`;
-    }
-    
-    // Event listeners for volume conversion
-    volumeInput.addEventListener('input', function() {
-        volumeLastModified = 'input';
-        convertVolume();
-    });
-    
-    volumeResult.addEventListener('input', function() {
-        volumeLastModified = 'result';
-        convertVolume();
-    });
-    
-    volumeFrom.addEventListener('change', function() {
-        // Keep the last modified field as the source of truth
-        convertVolume();
-    });
-    
-    volumeTo.addEventListener('change', function() {
-        // Keep the last modified field as the source of truth
-        convertVolume();
-    });
-    
-    // Initialize volume conversion
-    convertVolume();
-    
-    // Temperature conversion functionality
-    const tempInput = document.getElementById('temp-input');
-    const tempFrom = document.getElementById('temp-from');
-    const tempTo = document.getElementById('temp-to');
-    const tempResult = document.getElementById('temp-result');
-    const tempFormula = document.getElementById('temp-formula');
-    
-    // Track which temperature input was last modified
-    let tempLastModified = 'input';
-    
-    // Temperature conversion is special - can't use simple ratios
-    // We'll convert everything to Celsius first, then to target unit
-    
-    // Convert from any temperature unit to Celsius
-    function toCelsius(value, unit) {
-        switch(unit) {
-            case 'c': return value; // Already Celsius
-            case 'f': return (value - 32) * 5/9; // Fahrenheit to Celsius
-            case 'k': return value - 273.15; // Kelvin to Celsius
-            case 'r': return (value - 491.67) * 5/9; // Rankine to Celsius
-            default: return value;
-        }
-    }
-    
-    // Convert from Celsius to any temperature unit
-    function fromCelsius(value, unit) {
-        switch(unit) {
-            case 'c': return value; // Keep as Celsius
-            case 'f': return (value * 9/5) + 32; // Celsius to Fahrenheit
-            case 'k': return value + 273.15; // Celsius to Kelvin
-            case 'r': return (value + 273.15) * 9/5; // Celsius to Rankine
-            default: return value;
-        }
-    }
-    
-    // Perform temperature conversion from input to result
-    function convertTempFromInput() {
-        const fromUnit = tempFrom.value;
-        const toUnit = tempTo.value;
-        const inputValue = parseFloat(tempInput.value);
-        
-        if (isNaN(inputValue)) {
-            tempResult.value = '';
-            return;
-        }
-        
-        // Convert input to Celsius first, then to target unit
-        const valueInCelsius = toCelsius(inputValue, fromUnit);
-        const result = fromCelsius(valueInCelsius, toUnit);
-        
-        // Display with appropriate precision for temperature
-        tempResult.value = result.toFixed(2);
-        
-        // Update formula display
-        updateTempFormula(fromUnit, toUnit);
-    }
-    
-    // Perform temperature conversion from result to input
-    function convertTempFromResult() {
-        const fromUnit = tempFrom.value;
-        const toUnit = tempTo.value;
-        const resultValue = parseFloat(tempResult.value);
-        
-        if (isNaN(resultValue)) {
-            tempInput.value = '';
-            return;
-        }
-        
-        // Convert result to Celsius first, then to source unit
-        const valueInCelsius = toCelsius(resultValue, toUnit);
-        const input = fromCelsius(valueInCelsius, fromUnit);
-        
-        // Display with appropriate precision for temperature
-        tempInput.value = input.toFixed(2);
-        
-        // Update formula display
-        updateTempFormula(fromUnit, toUnit);
-    }
-    
-    // Wrapper function to determine which temperature conversion to perform
-    function convertTemp() {
-        if (tempLastModified === 'input') {
-            convertTempFromInput();
-        } else {
-            convertTempFromResult();
-        }
-    }
-    
-    // Update temperature conversion formula display
-    function updateTempFormula(fromUnit, toUnit) {
-        if (fromUnit === toUnit) {
-            tempFormula.textContent = `Formula: No conversion needed (same units)`;
-            return;
-        }
-        
-        // Show the appropriate formula based on the conversion
-        let formula = '';
-        
-        if (fromUnit === 'c' && toUnit === 'f') {
-            formula = '°F = (°C × 9/5) + 32';
-        } else if (fromUnit === 'f' && toUnit === 'c') {
-            formula = '°C = (°F − 32) × 5/9';
-        } else if (fromUnit === 'c' && toUnit === 'k') {
-            formula = 'K = °C + 273.15';
-        } else if (fromUnit === 'k' && toUnit === 'c') {
-            formula = '°C = K − 273.15';
-        } else if (fromUnit === 'f' && toUnit === 'k') {
-            formula = 'K = (°F − 32) × 5/9 + 273.15';
-        } else if (fromUnit === 'k' && toUnit === 'f') {
-            formula = '°F = (K − 273.15) × 9/5 + 32';
-        } else if (fromUnit === 'c' && toUnit === 'r') {
-            formula = '°R = (°C + 273.15) × 9/5';
-        } else if (fromUnit === 'r' && toUnit === 'c') {
-            formula = '°C = (°R × 5/9) − 273.15';
-        } else if (fromUnit === 'f' && toUnit === 'r') {
-            formula = '°R = °F + 459.67';
-        } else if (fromUnit === 'r' && toUnit === 'f') {
-            formula = '°F = °R − 459.67';
-        } else if (fromUnit === 'k' && toUnit === 'r') {
-            formula = '°R = K × 9/5';
-        } else if (fromUnit === 'r' && toUnit === 'k') {
-            formula = 'K = °R × 5/9';
-        }
-        
-        tempFormula.textContent = `Formula: ${formula}`;
-    }
-    
-    // Event listeners for temperature conversion
-    tempInput.addEventListener('input', function() {
-        tempLastModified = 'input';
-        convertTemp();
-    });
-    
-    tempResult.addEventListener('input', function() {
-        tempLastModified = 'result';
-        convertTemp();
-    });
-    
-    tempFrom.addEventListener('change', function() {
-        // Keep the last modified field as the source of truth
-        convertTemp();
-    });
-    
-    tempTo.addEventListener('change', function() {
-        // Keep the last modified field as the source of truth
-        convertTemp();
-    });
-    
-    // Initialize all converters
-    convertWeight();
-    convertLength();
-    convertVolume();
-    convertTemp();
-    
-    // Data size conversion functionality
-    const dataInput = document.getElementById('data-input');
-    const dataFrom = document.getElementById('data-from');
-    const dataTo = document.getElementById('data-to');
-    const dataResult = document.getElementById('data-result');
-    const dataFormula = document.getElementById('data-formula');
-    
-    // Track which data input was last modified
-    let dataLastModified = 'input';
-    
-    // Conversion rates (to bytes as base unit)
-    // For decimal (SI) units: 1 KB = 1000 bytes
-    // For binary units: 1 KiB = 1024 bytes
-    const dataConversions = {
-        // Decimal (SI) units
-        b: 1,
-        kb: 1000,
-        mb: 1000000,
-        gb: 1000000000,
-        tb: 1000000000000,
-        pb: 1000000000000000,
-        
-        // Binary units
-        kib: 1024,
-        mib: 1048576,          // 1024^2
-        gib: 1073741824,       // 1024^3
-        tib: 1099511627776,    // 1024^4
-        pib: 1125899906842624  // 1024^5
-    };
-    
-    // Perform data size conversion from input to result
-    function convertDataFromInput() {
-        const fromUnit = dataFrom.value;
-        const toUnit = dataTo.value;
-        const inputValue = parseFloat(dataInput.value);
-        
-        if (isNaN(inputValue)) {
-            dataResult.value = '';
-            return;
-        }
-        
-        // Convert input to bytes first (base unit), then to target unit
-        const valueInBytes = inputValue * dataConversions[fromUnit];
-        const result = valueInBytes / dataConversions[toUnit];
-        
-        // Display with appropriate precision
-        dataResult.value = formatResult(result);
-        
-        // Update formula display
-        updateDataFormula(fromUnit, toUnit);
-    }
-    
-    // Perform data size conversion from result to input
-    function convertDataFromResult() {
-        const fromUnit = dataFrom.value;
-        const toUnit = dataTo.value;
-        const resultValue = parseFloat(dataResult.value);
-        
-        if (isNaN(resultValue)) {
-            dataInput.value = '';
-            return;
-        }
-        
-        // Convert result to bytes first (base unit), then to source unit
-        const valueInBytes = resultValue * dataConversions[toUnit];
-        const input = valueInBytes / dataConversions[fromUnit];
-        
-        // Display with appropriate precision
-        dataInput.value = formatResult(input);
-        
-        // Update formula display
-        updateDataFormula(fromUnit, toUnit);
-    }
-    
-    // Wrapper function to determine which data conversion to perform
-    function convertData() {
-        if (dataLastModified === 'input') {
-            convertDataFromInput();
-        } else {
-            convertDataFromResult();
-        }
-    }
-    
-    // Update data conversion formula display
-    function updateDataFormula(fromUnit, toUnit) {
-        if (fromUnit === toUnit) {
-            dataFormula.textContent = `Formula: No conversion needed (same units)`;
-            return;
-        }
-        
-        // Calculate the conversion factor between the two units
-        const conversionFactor = dataConversions[fromUnit] / dataConversions[toUnit];
-        
-        dataFormula.textContent = `Formula: 1 ${fromUnit.toUpperCase()} = ${formatResult(conversionFactor)} ${toUnit.toUpperCase()}`;
-    }
-    
-    // Event listeners for data conversion
-    dataInput.addEventListener('input', function() {
-        dataLastModified = 'input';
-        convertData();
-    });
-    
-    dataResult.addEventListener('input', function() {
-        dataLastModified = 'result';
-        convertData();
-    });
-    
-    dataFrom.addEventListener('change', function() {
-        // Keep the last modified field as the source of truth
-        convertData();
-    });
-    
-    dataTo.addEventListener('change', function() {
-        // Keep the last modified field as the source of truth
-        convertData();
-    });
-    
-    // Initialize data conversion
-    convertData();
-    
-    // Calculator functionality
-    const calculatorResult = document.getElementById('calculator-result');
-    const calculatorKeys = document.querySelector('.calculator-keys');
-    
-    let displayValue = '0';
-    let firstOperand = null;
-    let waitingForSecondOperand = false;
-    let operator = null;
-    
-    // Update the display
-    function updateCalculatorDisplay() {
-        calculatorResult.value = displayValue;
-    }
-    
-    // Handle digit input
-    function inputDigit(digit) {
-        if (waitingForSecondOperand) {
-            displayValue = digit;
-            waitingForSecondOperand = false;
-        } else {
-            // Overwrite displayValue if it's '0', otherwise append
-            displayValue = displayValue === '0' ? digit : displayValue + digit;
-        }
-    }
-    
-    // Handle decimal point
-    function inputDecimal() {
-        // If waiting for second operand, start it with '0.'
-        if (waitingForSecondOperand) {
-            displayValue = '0.';
-            waitingForSecondOperand = false;
-            return;
-        }
-        
-        // Add a decimal point only if one doesn't already exist
-        if (!displayValue.includes('.')) {
-            displayValue += '.';
-        }
-    }
-    
-    // Handle operators
-    function handleOperator(nextOperator) {
-        // Convert current display value to number
-        const inputValue = parseFloat(displayValue);
-        
-        // If there's a pending operator and we were waiting for second operand
-        if (operator && waitingForSecondOperand) {
-            // Just update the operator and exit
-            operator = nextOperator;
-            return;
-        }
-        
-        // If there's no first operand yet, store current value
-        if (firstOperand === null) {
-            firstOperand = inputValue;
-        } else if (operator) {
-            // If we already have first operand and operator, perform the calculation
-            const result = performCalculation();
-            // Round to avoid floating point issues
-            displayValue = `${parseFloat(result.toFixed(7))}`;
-            firstOperand = result;
-        }
-        
-        waitingForSecondOperand = true;
-        operator = nextOperator;
-    }
-    
-    // Perform calculation based on operator
-    function performCalculation() {
-        const inputValue = parseFloat(displayValue);
-        
-        if (operator === 'add') {
-            return firstOperand + inputValue;
-        } else if (operator === 'subtract') {
-            return firstOperand - inputValue;
-        } else if (operator === 'multiply') {
-            return firstOperand * inputValue;
-        } else if (operator === 'divide') {
-            if (inputValue === 0) {
-                // Handle division by zero
-                alert('Cannot divide by zero');
-                resetCalculator();
-                return 0;
+        if (!categoryElement) {
+            categoryElement = document.createElement('div');
+            categoryElement.id = `common-${tabId}-conversions`;
+            categoryElement.className = 'conversion-category';
+            categoryElement.innerHTML = `<h4>${capitalizeFirstLetter(tabId)} Conversions</h4><ul></ul>`;
+            commonConversionsContent.appendChild(categoryElement);
+            
+            // Populate with conversions based on tab
+            const list = categoryElement.querySelector('ul');
+            switch(tabId) {
+                case 'weight':
+                    list.innerHTML = `
+                        <li>1 kg = 2.20462 lb</li>
+                        <li>1 lb = 0.453592 kg</li>
+                        <li>1 kg = 1000 g</li>
+                        <li>1 lb = 16 oz</li>
+                        <li>1 stone = 14 lb</li>
+                    `;
+                    break;
+                case 'length':
+                    list.innerHTML = `
+                        <li>1 m = 3.28084 ft</li>
+                        <li>1 ft = 0.3048 m</li>
+                        <li>1 in = 2.54 cm</li>
+                        <li>1 km = 0.621371 mi</li>
+                        <li>1 mi = 1.60934 km</li>
+                    `;
+                    break;
+                case 'volume':
+                    list.innerHTML = `
+                        <li>1 L = 0.264172 gal (US)</li>
+                        <li>1 gal (US) = 3.78541 L</li>
+                        <li>1 L = 1000 mL</li>
+                        <li>1 cup (US) = 236.588 mL</li>
+                        <li>1 L = 4.22675 cups (US)</li>
+                    `;
+                    break;
+                case 'temperature':
+                    list.innerHTML = `
+                        <li>0°C = 32°F</li>
+                        <li>100°C = 212°F</li>
+                        <li>°F = (°C × 9/5) + 32</li>
+                        <li>°C = (°F - 32) × 5/9</li>
+                        <li>K = °C + 273.15</li>
+                    `;
+                    break;
+                case 'data':
+                    list.innerHTML = `
+                        <li>1 KB = 1,000 bytes</li>
+                        <li>1 MB = 1,000 KB</li>
+                        <li>1 GB = 1,000 MB</li>
+                        <li>1 KiB = 1,024 bytes</li>
+                        <li>1 MiB = 1,024 KiB</li>
+                    `;
+                    break;
+                case 'calculator':
+                    list.innerHTML = `
+                        <li>% of a number: number × (percent / 100)</li>
+                        <li>Addition: a + b</li>
+                        <li>Subtraction: a - b</li>
+                        <li>Multiplication: a × b</li>
+                        <li>Division: a ÷ b</li>
+                    `;
+                    break;
             }
-            return firstOperand / inputValue;
         }
         
-        // If no operator matches, return the input value
-        return inputValue;
+        categoryElement.classList.add('active');
     }
     
-    // Handle percentage
-    function handlePercentage() {
-        const inputValue = parseFloat(displayValue);
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+    
+    // Initialize converters
+    initWeightConverter();
+    initLengthConverter();
+    initVolumeConverter();
+    initTemperatureConverter();
+    initDataConverter();
+    initCalculator();
+    
+    // Weight Converter
+    function initWeightConverter() {
+        const weightInput = document.getElementById('weight-input');
+        const weightFrom = document.getElementById('weight-from');
+        const weightTo = document.getElementById('weight-to');
+        const weightResult = document.getElementById('weight-result');
+        const weightFormula = document.getElementById('weight-formula');
         
-        if (operator && firstOperand !== null) {
-            // If we're calculating with a previous value
-            // For + and -, treat percent as percent of first operand
-            // For * and /, just divide by 100
-            if (operator === 'add' || operator === 'subtract') {
-                displayValue = `${parseFloat((firstOperand * (inputValue / 100)).toFixed(7))}`;
+        const weightConversionRates = {
+            kg: {
+                kg: 1,
+                g: 1000,
+                mg: 1000000,
+                lb: 2.20462,
+                oz: 35.274,
+                st: 0.157473,
+                ton: 0.001
+            },
+            g: {
+                kg: 0.001,
+                g: 1,
+                mg: 1000,
+                lb: 0.00220462,
+                oz: 0.035274,
+                st: 0.000157473,
+                ton: 0.000001
+            },
+            mg: {
+                kg: 0.000001,
+                g: 0.001,
+                mg: 1,
+                lb: 0.00000220462,
+                oz: 0.000035274,
+                st: 0.000000157473,
+                ton: 0.000000001
+            },
+            lb: {
+                kg: 0.453592,
+                g: 453.592,
+                mg: 453592,
+                lb: 1,
+                oz: 16,
+                st: 0.0714286,
+                ton: 0.000453592
+            },
+            oz: {
+                kg: 0.0283495,
+                g: 28.3495,
+                mg: 28349.5,
+                lb: 0.0625,
+                oz: 1,
+                st: 0.00446429,
+                ton: 0.0000283495
+            },
+            st: {
+                kg: 6.35029,
+                g: 6350.29,
+                mg: 6350290,
+                lb: 14,
+                oz: 224,
+                st: 1,
+                ton: 0.00635029
+            },
+            ton: {
+                kg: 1000,
+                g: 1000000,
+                mg: 1000000000,
+                lb: 2204.62,
+                oz: 35274,
+                st: 157.473,
+                ton: 1
+            }
+        };
+        
+        function convertWeight() {
+            const fromUnit = weightFrom.value;
+            const toUnit = weightTo.value;
+            const inputValue = parseFloat(weightInput.value);
+            
+            if (!isNaN(inputValue)) {
+                const result = inputValue * weightConversionRates[fromUnit][toUnit];
+                weightResult.value = result.toFixed(result < 0.01 ? 6 : result < 1 ? 4 : 2);
+                
+                // Update formula
+                const formula = `1 ${fromUnit} = ${weightConversionRates[fromUnit][toUnit].toFixed(6)} ${toUnit}`;
+                weightFormula.textContent = `Formula: ${formula}`;
+            }
+        }
+        
+        weightInput.addEventListener('input', convertWeight);
+        weightFrom.addEventListener('change', convertWeight);
+        weightTo.addEventListener('change', convertWeight);
+        
+        // Initialize with default values
+        convertWeight();
+    }
+    
+    // Length Converter
+    function initLengthConverter() {
+        const lengthInput = document.getElementById('length-input');
+        const lengthFrom = document.getElementById('length-from');
+        const lengthTo = document.getElementById('length-to');
+        const lengthResult = document.getElementById('length-result');
+        const lengthFormula = document.getElementById('length-formula');
+        
+        const lengthConversionRates = {
+            m: {
+                m: 1,
+                km: 0.001,
+                cm: 100,
+                mm: 1000,
+                ft: 3.28084,
+                in: 39.3701,
+                yd: 1.09361,
+                mi: 0.000621371
+            },
+            km: {
+                m: 1000,
+                km: 1,
+                cm: 100000,
+                mm: 1000000,
+                ft: 3280.84,
+                in: 39370.1,
+                yd: 1093.61,
+                mi: 0.621371
+            },
+            cm: {
+                m: 0.01,
+                km: 0.00001,
+                cm: 1,
+                mm: 10,
+                ft: 0.0328084,
+                in: 0.393701,
+                yd: 0.0109361,
+                mi: 0.00000621371
+            },
+            mm: {
+                m: 0.001,
+                km: 0.000001,
+                cm: 0.1,
+                mm: 1,
+                ft: 0.00328084,
+                in: 0.0393701,
+                yd: 0.00109361,
+                mi: 0.000000621371
+            },
+            ft: {
+                m: 0.3048,
+                km: 0.0003048,
+                cm: 30.48,
+                mm: 304.8,
+                ft: 1,
+                in: 12,
+                yd: 0.333333,
+                mi: 0.000189394
+            },
+            in: {
+                m: 0.0254,
+                km: 0.0000254,
+                cm: 2.54,
+                mm: 25.4,
+                ft: 0.0833333,
+                in: 1,
+                yd: 0.0277778,
+                mi: 0.0000157828
+            },
+            yd: {
+                m: 0.9144,
+                km: 0.0009144,
+                cm: 91.44,
+                mm: 914.4,
+                ft: 3,
+                in: 36,
+                yd: 1,
+                mi: 0.000568182
+            },
+            mi: {
+                m: 1609.34,
+                km: 1.60934,
+                cm: 160934,
+                mm: 1609340,
+                ft: 5280,
+                in: 63360,
+                yd: 1760,
+                mi: 1
+            }
+        };
+        
+        function convertLength() {
+            const fromUnit = lengthFrom.value;
+            const toUnit = lengthTo.value;
+            const inputValue = parseFloat(lengthInput.value);
+            
+            if (!isNaN(inputValue)) {
+                const result = inputValue * lengthConversionRates[fromUnit][toUnit];
+                lengthResult.value = result.toFixed(result < 0.01 ? 6 : result < 1 ? 4 : 2);
+                
+                // Update formula
+                const formula = `1 ${fromUnit} = ${lengthConversionRates[fromUnit][toUnit].toFixed(6)} ${toUnit}`;
+                lengthFormula.textContent = `Formula: ${formula}`;
+            }
+        }
+        
+        lengthInput.addEventListener('input', convertLength);
+        lengthFrom.addEventListener('change', convertLength);
+        lengthTo.addEventListener('change', convertLength);
+        
+        // Initialize with default values
+        convertLength();
+    }
+    
+    // Volume Converter
+    function initVolumeConverter() {
+        const volumeInput = document.getElementById('volume-input');
+        const volumeFrom = document.getElementById('volume-from');
+        const volumeTo = document.getElementById('volume-to');
+        const volumeResult = document.getElementById('volume-result');
+        const volumeFormula = document.getElementById('volume-formula');
+        
+        const volumeConversionRates = {
+            l: {
+                l: 1,
+                ml: 1000,
+                m3: 0.001,
+                gal: 0.264172,
+                qt: 1.05669,
+                pt: 2.11338,
+                cup: 4.22675,
+                floz: 33.814,
+                tbsp: 67.628,
+                tsp: 202.884
+            },
+            ml: {
+                l: 0.001,
+                ml: 1,
+                m3: 0.000001,
+                gal: 0.000264172,
+                qt: 0.00105669,
+                pt: 0.00211338,
+                cup: 0.00422675,
+                floz: 0.033814,
+                tbsp: 0.067628,
+                tsp: 0.202884
+            },
+            m3: {
+                l: 1000,
+                ml: 1000000,
+                m3: 1,
+                gal: 264.172,
+                qt: 1056.69,
+                pt: 2113.38,
+                cup: 4226.75,
+                floz: 33814,
+                tbsp: 67628,
+                tsp: 202884
+            },
+            gal: {
+                l: 3.78541,
+                ml: 3785.41,
+                m3: 0.00378541,
+                gal: 1,
+                qt: 4,
+                pt: 8,
+                cup: 16,
+                floz: 128,
+                tbsp: 256,
+                tsp: 768
+            },
+            qt: {
+                l: 0.946353,
+                ml: 946.353,
+                m3: 0.000946353,
+                gal: 0.25,
+                qt: 1,
+                pt: 2,
+                cup: 4,
+                floz: 32,
+                tbsp: 64,
+                tsp: 192
+            },
+            pt: {
+                l: 0.473176,
+                ml: 473.176,
+                m3: 0.000473176,
+                gal: 0.125,
+                qt: 0.5,
+                pt: 1,
+                cup: 2,
+                floz: 16,
+                tbsp: 32,
+                tsp: 96
+            },
+            cup: {
+                l: 0.236588,
+                ml: 236.588,
+                m3: 0.000236588,
+                gal: 0.0625,
+                qt: 0.25,
+                pt: 0.5,
+                cup: 1,
+                floz: 8,
+                tbsp: 16,
+                tsp: 48
+            },
+            floz: {
+                l: 0.0295735,
+                ml: 29.5735,
+                m3: 0.0000295735,
+                gal: 0.0078125,
+                qt: 0.03125,
+                pt: 0.0625,
+                cup: 0.125,
+                floz: 1,
+                tbsp: 2,
+                tsp: 6
+            },
+            tbsp: {
+                l: 0.0147868,
+                ml: 14.7868,
+                m3: 0.0000147868,
+                gal: 0.00390625,
+                qt: 0.015625,
+                pt: 0.03125,
+                cup: 0.0625,
+                floz: 0.5,
+                tbsp: 1,
+                tsp: 3
+            },
+            tsp: {
+                l: 0.00492892,
+                ml: 4.92892,
+                m3: 0.00000492892,
+                gal: 0.00130208,
+                qt: 0.00520833,
+                pt: 0.0104167,
+                cup: 0.0208333,
+                floz: 0.166667,
+                tbsp: 0.333333,
+                tsp: 1
+            }
+        };
+        
+        function convertVolume() {
+            const fromUnit = volumeFrom.value;
+            const toUnit = volumeTo.value;
+            const inputValue = parseFloat(volumeInput.value);
+            
+            if (!isNaN(inputValue)) {
+                const result = inputValue * volumeConversionRates[fromUnit][toUnit];
+                volumeResult.value = result.toFixed(result < 0.01 ? 6 : result < 1 ? 4 : 2);
+                
+                // Update formula
+                const formula = `1 ${fromUnit} = ${volumeConversionRates[fromUnit][toUnit].toFixed(6)} ${toUnit}`;
+                volumeFormula.textContent = `Formula: ${formula}`;
+            }
+        }
+        
+        volumeInput.addEventListener('input', convertVolume);
+        volumeFrom.addEventListener('change', convertVolume);
+        volumeTo.addEventListener('change', convertVolume);
+        
+        // Initialize with default values
+        convertVolume();
+    }
+    
+    // Temperature Converter
+    function initTemperatureConverter() {
+        const tempInput = document.getElementById('temp-input');
+        const tempFrom = document.getElementById('temp-from');
+        const tempTo = document.getElementById('temp-to');
+        const tempResult = document.getElementById('temp-result');
+        const tempFormula = document.getElementById('temp-formula');
+        
+        function convertTemperature() {
+            const fromUnit = tempFrom.value;
+            const toUnit = tempTo.value;
+            const inputValue = parseFloat(tempInput.value);
+            
+            if (!isNaN(inputValue)) {
+                let result;
+                let formula;
+                
+                // Convert to Celsius first (as a middle step)
+                let celsius;
+                switch(fromUnit) {
+                    case 'c': celsius = inputValue; break;
+                    case 'f': celsius = (inputValue - 32) * 5/9; break;
+                    case 'k': celsius = inputValue - 273.15; break;
+                    case 'r': celsius = (inputValue - 491.67) * 5/9; break;
+                }
+                
+                // Convert from Celsius to target unit
+                switch(toUnit) {
+                    case 'c':
+                        result = celsius;
+                        formula = fromUnit === 'c' ? 'Direct conversion' : getTemperatureFormula(fromUnit, 'c');
+                        break;
+                    case 'f':
+                        result = celsius * 9/5 + 32;
+                        formula = fromUnit === 'f' ? 'Direct conversion' : getTemperatureFormula(fromUnit, 'f');
+                        break;
+                    case 'k':
+                        result = celsius + 273.15;
+                        formula = fromUnit === 'k' ? 'Direct conversion' : getTemperatureFormula(fromUnit, 'k');
+                        break;
+                    case 'r':
+                        result = (celsius + 273.15) * 9/5;
+                        formula = fromUnit === 'r' ? 'Direct conversion' : getTemperatureFormula(fromUnit, 'r');
+                        break;
+                }
+                
+                tempResult.value = result.toFixed(2);
+                tempFormula.textContent = `Formula: ${formula}`;
+            }
+        }
+        
+        function getTemperatureFormula(from, to) {
+            switch(from + to) {
+                case 'cf': return '°F = (°C × 9/5) + 32';
+                case 'ck': return 'K = °C + 273.15';
+                case 'cr': return '°R = (°C + 273.15) × 9/5';
+                case 'fc': return '°C = (°F - 32) × 5/9';
+                case 'fk': return 'K = (°F - 32) × 5/9 + 273.15';
+                case 'fr': return '°R = °F + 459.67';
+                case 'kc': return '°C = K - 273.15';
+                case 'kf': return '°F = (K - 273.15) × 9/5 + 32';
+                case 'kr': return '°R = K × 9/5';
+                case 'rc': return '°C = (°R - 491.67) × 5/9';
+                case 'rf': return '°F = °R - 459.67';
+                case 'rk': return 'K = °R × 5/9';
+                default: return 'Direct conversion';
+            }
+        }
+        
+        tempInput.addEventListener('input', convertTemperature);
+        tempFrom.addEventListener('change', convertTemperature);
+        tempTo.addEventListener('change', convertTemperature);
+        
+        // Initialize with default values
+        convertTemperature();
+    }
+    
+    // Data Size Converter
+    function initDataConverter() {
+        const dataInput = document.getElementById('data-input');
+        const dataFrom = document.getElementById('data-from');
+        const dataTo = document.getElementById('data-to');
+        const dataResult = document.getElementById('data-result');
+        const dataFormula = document.getElementById('data-formula');
+        
+        // Conversion to bytes
+        const dataToBytes = {
+            b: 1,
+            kb: 1000,
+            mb: 1000000,
+            gb: 1000000000,
+            tb: 1000000000000,
+            pb: 1000000000000000,
+            kib: 1024,
+            mib: 1048576,
+            gib: 1073741824,
+            tib: 1099511627776,
+            pib: 1125899906842624
+        };
+        
+        function convertData() {
+            const fromUnit = dataFrom.value;
+            const toUnit = dataTo.value;
+            const inputValue = parseFloat(dataInput.value);
+            
+            if (!isNaN(inputValue)) {
+                // Convert to bytes first, then to target unit
+                const bytes = inputValue * dataToBytes[fromUnit];
+                const result = bytes / dataToBytes[toUnit];
+                
+                dataResult.value = result.toFixed(result < 0.01 ? 8 : result < 1 ? 6 : 3);
+                
+                // Update formula
+                const conversionFactor = dataToBytes[fromUnit] / dataToBytes[toUnit];
+                const formula = `1 ${fromUnit} = ${conversionFactor} ${toUnit}`;
+                dataFormula.textContent = `Formula: ${formula}`;
+            }
+        }
+        
+        dataInput.addEventListener('input', convertData);
+        dataFrom.addEventListener('change', convertData);
+        dataTo.addEventListener('change', convertData);
+        
+        // Initialize with default values
+        convertData();
+    }
+    
+    // Calculator
+    function initCalculator() {
+        const calculator = {
+            displayValue: '0',
+            firstOperand: null,
+            waitingForSecondOperand: false,
+            operator: null,
+        };
+        
+        const calculatorDisplay = document.getElementById('calculator-result');
+        const keys = document.querySelector('.calculator-keys');
+        
+        function updateDisplay() {
+            calculatorDisplay.value = calculator.displayValue;
+        }
+        
+        function resetCalculator() {
+            calculator.displayValue = '0';
+            calculator.firstOperand = null;
+            calculator.waitingForSecondOperand = false;
+            calculator.operator = null;
+        }
+        
+        function inputDigit(digit) {
+            const { displayValue, waitingForSecondOperand } = calculator;
+            
+            if (waitingForSecondOperand) {
+                calculator.displayValue = digit;
+                calculator.waitingForSecondOperand = false;
             } else {
-                displayValue = `${parseFloat((inputValue / 100).toFixed(7))}`;
+                calculator.displayValue = displayValue === '0' ? digit : displayValue + digit;
             }
-        } else {
-            // Simple percentage - just divide by 100
-            displayValue = `${parseFloat((inputValue / 100).toFixed(7))}`;
-        }
-    }
-    
-    // Toggle sign
-    function toggleSign() {
-        displayValue = (parseFloat(displayValue) * -1).toString();
-    }
-    
-    // Reset calculator
-    function resetCalculator() {
-        displayValue = '0';
-        firstOperand = null;
-        waitingForSecondOperand = false;
-        operator = null;
-    }
-    
-    // Event listener for calculator keys
-    calculatorKeys.addEventListener('click', (event) => {
-        const target = event.target;
-        
-        // Exit if the clicked element isn't a button
-        if (!target.matches('button')) {
-            return;
         }
         
-        // Handle different key types
-        if (target.classList.contains('key-operator')) {
-            handleOperator(target.dataset.action);
-            updateCalculatorDisplay();
-            return;
-        }
-        
-        if (target.classList.contains('key-equals')) {
-            if (operator && !waitingForSecondOperand) {
-                const result = performCalculation();
-                displayValue = `${parseFloat(result.toFixed(7))}`;
-                firstOperand = null;
-                waitingForSecondOperand = false;
-                operator = null;
+        function inputDecimal(dot) {
+            if (calculator.waitingForSecondOperand) {
+                calculator.displayValue = '0.';
+                calculator.waitingForSecondOperand = false;
+                return;
             }
-            updateCalculatorDisplay();
-            return;
+            
+            if (!calculator.displayValue.includes(dot)) {
+                calculator.displayValue += dot;
+            }
         }
         
-        if (target.classList.contains('key-clear')) {
-            resetCalculator();
-            updateCalculatorDisplay();
-            return;
+        function handleOperator(nextOperator) {
+            const { firstOperand, displayValue, operator } = calculator;
+            const inputValue = parseFloat(displayValue);
+            
+            if (operator && calculator.waitingForSecondOperand) {
+                calculator.operator = nextOperator;
+                return;
+            }
+            
+            if (firstOperand === null && !isNaN(inputValue)) {
+                calculator.firstOperand = inputValue;
+            } else if (operator) {
+                const result = calculate(firstOperand, inputValue, operator);
+                calculator.displayValue = `${parseFloat(result.toFixed(7))}`;
+                calculator.firstOperand = result;
+            }
+            
+            calculator.waitingForSecondOperand = true;
+            calculator.operator = nextOperator;
         }
         
-        if (target.classList.contains('key-sign')) {
-            toggleSign();
-            updateCalculatorDisplay();
-            return;
+        function calculate(firstOperand, secondOperand, operator) {
+            switch (operator) {
+                case 'add':
+                    return firstOperand + secondOperand;
+                case 'subtract':
+                    return firstOperand - secondOperand;
+                case 'multiply':
+                    return firstOperand * secondOperand;
+                case 'divide':
+                    return firstOperand / secondOperand;
+                default:
+                    return secondOperand;
+            }
         }
         
-        if (target.classList.contains('key-percent')) {
-            handlePercentage();
-            updateCalculatorDisplay();
-            return;
+        function handlePercent() {
+            const { displayValue } = calculator;
+            const value = parseFloat(displayValue) / 100;
+            calculator.displayValue = String(value);
         }
         
-        if (target.classList.contains('key-decimal')) {
-            inputDecimal();
-            updateCalculatorDisplay();
-            return;
+        function handleSignChange() {
+            const { displayValue } = calculator;
+            const value = parseFloat(displayValue) * -1;
+            calculator.displayValue = String(value);
         }
         
-        // Handle number keys
-        if (target.classList.contains('key-number')) {
-            inputDigit(target.dataset.digit);
-            updateCalculatorDisplay();
+        keys.addEventListener('click', (event) => {
+            const { target } = event;
+            
+            if (!target.matches('button')) {
+                return;
+            }
+            
+            if (target.classList.contains('key-operator')) {
+                handleOperator(target.dataset.action);
+                updateDisplay();
+                return;
+            }
+            
+            if (target.classList.contains('key-equals')) {
+                handleOperator('equals');
+                updateDisplay();
+                return;
+            }
+            
+            if (target.classList.contains('key-clear')) {
+                resetCalculator();
+                updateDisplay();
+                return;
+            }
+            
+            if (target.classList.contains('key-decimal')) {
+                inputDecimal('.');
+                updateDisplay();
+                return;
+            }
+            
+            if (target.classList.contains('key-percent')) {
+                handlePercent();
+                updateDisplay();
+                return;
+            }
+            
+            if (target.classList.contains('key-sign')) {
+                handleSignChange();
+                updateDisplay();
+                return;
+            }
+            
+            if (target.classList.contains('key-number')) {
+                inputDigit(target.dataset.digit);
+                updateDisplay();
+                return;
+            }
+        });
+        
+        // Initialize calculator display
+        updateDisplay();
+    }
+    
+    // Initialize the first tab's common conversions
+    updateCommonConversions('weight');
+    
+    // Add event listeners for SEO tracking
+    document.querySelectorAll('.tab-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            // Track tab change events - this would connect to analytics in a real implementation
+            trackEvent('tab_change', { 
+                category: 'conversion',
+                tab: this.getAttribute('data-tab')
+            });
+        });
+    });
+    
+    // Track conversion events
+    ['weight', 'length', 'volume', 'temp', 'data'].forEach(type => {
+        const input = document.getElementById(`${type}-input`);
+        if (input) {
+            input.addEventListener('change', function() {
+                trackEvent('conversion_performed', {
+                    category: type,
+                    from: document.getElementById(`${type}-from`).value,
+                    to: document.getElementById(`${type}-to`).value
+                });
+            });
         }
     });
     
-    // Initialize calculator display
-    updateCalculatorDisplay();
+    // Mock tracking function - would be replaced with actual analytics implementation
+    function trackEvent(eventName, params) {
+        // This would connect to Google Analytics, Matomo, etc.
+        console.log(`Event tracked: ${eventName}`, params);
+        
+        // Example implementation with Google Analytics
+        // if (typeof gtag === 'function') {
+        //     gtag('event', eventName, params);
+        // }
+    }
 });
