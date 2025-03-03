@@ -1,433 +1,351 @@
-/* Base Styles */
-:root {
-    --primary-color: #4285f4;
-    --primary-dark: #3367d6;
-    --secondary-color: #34a853;
-    --accent-color: #ea4335;
-    --light-color: #f8f9fa;
-    --dark-color: #202124;
-    --text-color: #3c4043;
-    --border-color: #dadce0;
-    --hover-color: #e8f0fe;
-    --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    --transition: all 0.3s ease;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    line-height: 1.6;
-    color: var(--text-color);
-    background-color: var(--light-color);
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* Typography */
-h1, h2, h3, h4 {
-    color: var(--dark-color);
-    margin-bottom: 15px;
-}
-
-h1 {
-    font-size: 2.5rem;
-    text-align: center;
-}
-
-.conversion-category {
-    display: none;
-}
-
-.conversion-category.active {
-    display: block;
-}
-
-.common-conversions ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.common-conversions li {
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.common-conversions li:last-child {
-    border-bottom: none;
-}
-
-/* FAQ Section */
-.faq {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: var(--box-shadow);
-    padding: 30px;
-    margin-bottom: 30px;
-}
-
-.faq h2 {
-    margin-bottom: 20px;
-}
-
-.faq-item {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.faq-item:last-child {
-    margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: none;
-}
-
-.faq-item h3 {
-    font-size: 1.2rem;
-    color: var(--primary-color);
-    margin-bottom: 10px;
-}
-
-/* Footer */
-footer {
-    background-color: var(--dark-color);
-    color: white;
-    padding: 40px 0 20px;
-}
-
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 0 20px;
-}
-
-.footer-section {
-    flex: 1;
-    min-width: 250px;
-    margin-bottom: 30px;
-}
-
-.footer-section h3 {
-    color: white;
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-}
-
-.footer-section ul {
-    list-style-type: none;
-}
-
-.footer-section li {
-    margin-bottom: 10px;
-}
-
-.footer-section a {
-    color: #bdc1c6;
-    transition: color 0.3s;
-}
-
-.footer-section a:hover {
-    color: white;
-}
-
-.copyright {
-    text-align: center;
-    padding-top: 20px;
-    border-top: 1px solid #3c4043;
-    margin-top: 20px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .tabs {
-        flex-direction: column;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Measurement Converter | Convert Weight, Length, Volume & More</title>
+    <meta name="description" content="Free online measurement converter tool. Convert kg to lb, meters to feet, liters to gallons, Celsius to Fahrenheit and more instantly.">
+    <meta name="keywords" content="measurement converter, unit converter, weight converter, length converter, temperature converter, volume converter, data size converter">
+    <link rel="canonical" href="https://yourwebsite.com/index.html">
+    <meta property="og:title" content="Convert Anything: Online Measurement Converter Tool">
+    <meta property="og:description" content="Free online tool to convert weight, length, volume, temperature and data units instantly.">
+    <meta property="og:image" content="https://yourwebsite.com/images/converter-preview.jpg">
+    <meta property="og:url" content="https://yourwebsite.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="styles.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Convert Anything",
+      "description": "Free online measurement converter for weight, length, volume, temperature and data units.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
     }
-    
-    .tab-btn {
-        width: 100%;
-        text-align: left;
-    }
-    
-    .converter-container {
-        flex-direction: column;
-    }
-    
-    .equals {
-        margin: 10px 0;
-    }
-    
-    .footer-section {
-        flex: 100%;
-    }
-}
-}
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CONVERT ANYTHING: Weight, Length, Volume & More</h1>
+            <h2>Fast & Free Unit Conversion for Everyday Needs</h2>
+        </header>
 
-h2 {
-    font-size: 1.8rem;
-    text-align: center;
-}
+        <div class="tab-container">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="weight">
+                    <i class="icon weight-icon" aria-hidden="true"></i> Weight
+                </button>
+                <button class="tab-btn" data-tab="length">
+                    <i class="icon ruler-icon" aria-hidden="true"></i> Length
+                </button>
+                <button class="tab-btn" data-tab="volume">
+                    <i class="icon volume-icon" aria-hidden="true"></i> Volume
+                </button>
+                <button class="tab-btn" data-tab="temperature">
+                    <i class="icon temp-icon" aria-hidden="true"></i> Temperature
+                </button>
+                <button class="tab-btn" data-tab="data">
+                    <i class="icon data-icon" aria-hidden="true"></i> Data
+                </button>
+                <button class="tab-btn" data-tab="calculator">
+                    <i class="icon calc-icon" aria-hidden="true"></i> Calculator
+                </button>
+            </div>
 
-h3 {
-    font-size: 1.4rem;
-}
+            <div class="tab-content active" id="weight">
+                <h2>Weight Converter</h2>
+                <div class="converter-container">
+                    <div class="input-group">
+                        <input type="number" id="weight-input" placeholder="Enter value" value="1" aria-label="Weight input value">
+                        <select id="weight-from" aria-label="Convert from weight unit">
+                            <option value="kg">Kilograms (kg)</option>
+                            <option value="g">Grams (g)</option>
+                            <option value="mg">Milligrams (mg)</option>
+                            <option value="lb">Pounds (lb)</option>
+                            <option value="oz">Ounces (oz)</option>
+                            <option value="st">Stone (st)</option>
+                            <option value="ton">Metric Tons (t)</option>
+                        </select>
+                    </div>
+                    <div class="equals">=</div>
+                    <div class="input-group">
+                        <input type="number" id="weight-result" placeholder="Result" aria-label="Weight conversion result">
+                        <select id="weight-to" aria-label="Convert to weight unit">
+                            <option value="kg">Kilograms (kg)</option>
+                            <option value="g">Grams (g)</option>
+                            <option value="mg">Milligrams (mg)</option>
+                            <option value="lb" selected>Pounds (lb)</option>
+                            <option value="oz">Ounces (oz)</option>
+                            <option value="st">Stone (st)</option>
+                            <option value="ton">Metric Tons (t)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="formula-container">
+                    <p id="weight-formula">Formula: 1 kg = 2.20462 lb</p>
+                </div>
+            </div>
 
-h4 {
-    font-size: 1.2rem;
-}
+            <div class="tab-content" id="length">
+                <h2>Length Converter</h2>
+                <div class="converter-container">
+                    <div class="input-group">
+                        <input type="number" id="length-input" placeholder="Enter value" value="1" aria-label="Length input value">
+                        <select id="length-from" aria-label="Convert from length unit">
+                            <option value="m">Meters (m)</option>
+                            <option value="km">Kilometers (km)</option>
+                            <option value="cm">Centimeters (cm)</option>
+                            <option value="mm">Millimeters (mm)</option>
+                            <option value="ft">Feet (ft)</option>
+                            <option value="in">Inches (in)</option>
+                            <option value="yd">Yards (yd)</option>
+                            <option value="mi">Miles (mi)</option>
+                        </select>
+                    </div>
+                    <div class="equals">=</div>
+                    <div class="input-group">
+                        <input type="number" id="length-result" placeholder="Result" aria-label="Length conversion result">
+                        <select id="length-to" aria-label="Convert to length unit">
+                            <option value="m">Meters (m)</option>
+                            <option value="km">Kilometers (km)</option>
+                            <option value="cm">Centimeters (cm)</option>
+                            <option value="mm">Millimeters (mm)</option>
+                            <option value="ft" selected>Feet (ft)</option>
+                            <option value="in">Inches (in)</option>
+                            <option value="yd">Yards (yd)</option>
+                            <option value="mi">Miles (mi)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="formula-container">
+                    <p id="length-formula">Formula: 1 m = 3.28084 ft</p>
+                </div>
+            </div>
 
-p {
-    margin-bottom: 15px;
-}
+            <div class="tab-content" id="volume">
+                <h2>Volume Converter</h2>
+                <div class="converter-container">
+                    <div class="input-group">
+                        <input type="number" id="volume-input" placeholder="Enter value" value="1" aria-label="Volume input value">
+                        <select id="volume-from" aria-label="Convert from volume unit">
+                            <option value="l">Liters (L)</option>
+                            <option value="ml">Milliliters (mL)</option>
+                            <option value="m3">Cubic Meters (m³)</option>
+                            <option value="gal">Gallons (US) (gal)</option>
+                            <option value="qt">Quarts (US) (qt)</option>
+                            <option value="pt">Pints (US) (pt)</option>
+                            <option value="cup">Cups (US) (cup)</option>
+                            <option value="floz">Fluid Ounces (US) (fl oz)</option>
+                            <option value="tbsp">Tablespoons (US) (tbsp)</option>
+                            <option value="tsp">Teaspoons (US) (tsp)</option>
+                        </select>
+                    </div>
+                    <div class="equals">=</div>
+                    <div class="input-group">
+                        <input type="number" id="volume-result" placeholder="Result" aria-label="Volume conversion result">
+                        <select id="volume-to" aria-label="Convert to volume unit">
+                            <option value="l">Liters (L)</option>
+                            <option value="ml">Milliliters (mL)</option>
+                            <option value="m3">Cubic Meters (m³)</option>
+                            <option value="gal" selected>Gallons (US) (gal)</option>
+                            <option value="qt">Quarts (US) (qt)</option>
+                            <option value="pt">Pints (US) (pt)</option>
+                            <option value="cup">Cups (US) (cup)</option>
+                            <option value="floz">Fluid Ounces (US) (fl oz)</option>
+                            <option value="tbsp">Tablespoons (US) (tbsp)</option>
+                            <option value="tsp">Teaspoons (US) (tsp)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="formula-container">
+                    <p id="volume-formula">Formula: 1 L = 0.264172 gal</p>
+                </div>
+            </div>
 
-a {
-    color: var(--primary-color);
-    text-decoration: none;
-}
+            <div class="tab-content" id="temperature">
+                <h2>Temperature Converter</h2>
+                <div class="converter-container">
+                    <div class="input-group">
+                        <input type="number" id="temp-input" placeholder="Enter value" value="0" aria-label="Temperature input value">
+                        <select id="temp-from" aria-label="Convert from temperature unit">
+                            <option value="c">Celsius (°C)</option>
+                            <option value="f">Fahrenheit (°F)</option>
+                            <option value="k">Kelvin (K)</option>
+                            <option value="r">Rankine (°R)</option>
+                        </select>
+                    </div>
+                    <div class="equals">=</div>
+                    <div class="input-group">
+                        <input type="number" id="temp-result" placeholder="Result" aria-label="Temperature conversion result">
+                        <select id="temp-to" aria-label="Convert to temperature unit">
+                            <option value="c">Celsius (°C)</option>
+                            <option value="f" selected>Fahrenheit (°F)</option>
+                            <option value="k">Kelvin (K)</option>
+                            <option value="r">Rankine (°R)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="formula-container">
+                    <p id="temp-formula">Formula: °F = (°C × 9/5) + 32</p>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="data">
+                <h2>Data Size Converter</h2>
+                <div class="converter-container">
+                    <div class="input-group">
+                        <input type="number" id="data-input" placeholder="Enter value" value="1" aria-label="Data size input value">
+                        <select id="data-from" aria-label="Convert from data size unit">
+                            <option value="b">Bytes (B)</option>
+                            <option value="kb">Kilobytes (KB)</option>
+                            <option value="mb" selected>Megabytes (MB)</option>
+                            <option value="gb">Gigabytes (GB)</option>
+                            <option value="tb">Terabytes (TB)</option>
+                            <option value="pb">Petabytes (PB)</option>
+                            <option value="kib">Kibibytes (KiB)</option>
+                            <option value="mib">Mebibytes (MiB)</option>
+                            <option value="gib">Gibibytes (GiB)</option>
+                            <option value="tib">Tebibytes (TiB)</option>
+                            <option value="pib">Pebibytes (PiB)</option>
+                        </select>
+                    </div>
+                    <div class="equals">=</div>
+                    <div class="input-group">
+                        <input type="number" id="data-result" placeholder="Result" aria-label="Data size conversion result">
+                        <select id="data-to" aria-label="Convert to data size unit">
+                            <option value="b">Bytes (B)</option>
+                            <option value="kb">Kilobytes (KB)</option>
+                            <option value="mb">Megabytes (MB)</option>
+                            <option value="gb" selected>Gigabytes (GB)</option>
+                            <option value="tb">Terabytes (TB)</option>
+                            <option value="pb">Petabytes (PB)</option>
+                            <option value="kib">Kibibytes (KiB)</option>
+                            <option value="mib">Mebibytes (MiB)</option>
+                            <option value="gib">Gibibytes (GiB)</option>
+                            <option value="tib">Tebibytes (TiB)</option>
+                            <option value="pib">Pebibytes (PiB)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="formula-container">
+                    <p id="data-formula">Formula: 1 MB = 0.001 GB</p>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="calculator">
+                <h2>Calculator</h2>
+                <div class="calculator-container">
+                    <div class="calculator-display">
+                        <input type="text" id="calculator-result" readonly value="0" aria-label="Calculator display">
+                    </div>
+                    <div class="calculator-keys">
+                        <button class="calculator-key key-clear" data-action="clear" aria-label="Clear">AC</button>
+                        <button class="calculator-key key-sign" data-action="sign" aria-label="Change sign">±</button>
+                        <button class="calculator-key key-percent" data-action="percent" aria-label="Percent">%</button>
+                        <button class="calculator-key key-operator" data-action="divide" aria-label="Divide">÷</button>
+                        
+                        <button class="calculator-key key-number" data-digit="7" aria-label="7">7</button>
+                        <button class="calculator-key key-number" data-digit="8" aria-label="8">8</button>
+                        <button class="calculator-key key-number" data-digit="9" aria-label="9">9</button>
+                        <button class="calculator-key key-operator" data-action="multiply" aria-label="Multiply">×</button>
+                        
+                        <button class="calculator-key key-number" data-digit="4" aria-label="4">4</button>
+                        <button class="calculator-key key-number" data-digit="5" aria-label="5">5</button>
+                        <button class="calculator-key key-number" data-digit="6" aria-label="6">6</button>
+                        <button class="calculator-key key-operator" data-action="subtract" aria-label="Subtract">−</button>
+                        
+                        <button class="calculator-key key-number" data-digit="1" aria-label="1">1</button>
+                        <button class="calculator-key key-number" data-digit="2" aria-label="2">2</button>
+                        <button class="calculator-key key-number" data-digit="3" aria-label="3">3</button>
+                        <button class="calculator-key key-operator" data-action="add" aria-label="Add">+</button>
+                        
+                        <button class="calculator-key key-number key-zero" data-digit="0" aria-label="0">0</button>
+                        <button class="calculator-key key-decimal" data-action="decimal" aria-label="Decimal point">.</button>
+                        <button class="calculator-key key-equals" data-action="calculate" aria-label="Equals">=</button>
+                    </div>
+                </div>
+                <div class="calculator-info">
+                    <h3>Calculator Features</h3>
+                    <ul>
+                        <li>Basic arithmetic operations: addition, subtraction, multiplication, division</li>
+                        <li>Percentage calculations</li>
+                        <li>Positive/negative number toggle</li>
+                        <li>Clear function (AC) to reset calculator</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-a:hover {
-    text-decoration: underline;
-}
+        <div class="common-conversions">
+            <h3>Common Conversions</h3>
+            <div id="common-conversions-content">
+                <div class="conversion-category active" id="common-weight-conversions">
+                    <h4>Weight Conversions</h4>
+                    <ul>
+                        <li>1 kg = 2.20462 lb</li>
+                        <li>1 lb = 0.453592 kg</li>
+                        <li>1 kg = 1000 g</li>
+                        <li>1 lb = 16 oz</li>
+                        <li>1 stone = 14 lb</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-/* Header */
-header {
-    text-align: center;
-    margin-bottom: 30px;
-    padding: 30px 0;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: var(--box-shadow);
-}
+        <section class="faq">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <h3>How do I convert kilograms to pounds?</h3>
+                <p>To convert kilograms to pounds, multiply the weight in kilograms by 2.20462. For example, 10 kg = 22.0462 pounds.</p>
+            </div>
+            <div class="faq-item">
+                <h3>How do I convert Celsius to Fahrenheit?</h3>
+                <p>To convert Celsius to Fahrenheit, multiply the temperature by 9/5 and add 32. The formula is: °F = (°C × 9/5) + 32</p>
+            </div>
+            <div class="faq-item">
+                <h3>What is the difference between KB and KiB?</h3>
+                <p>KB (kilobyte) is 1,000 bytes, while KiB (kibibyte) is 1,024 bytes. KB uses the decimal system (powers of 10), while KiB uses the binary system (powers of 2).</p>
+            </div>
+            <div class="faq-item">
+                <h3>How accurate are the conversions on this website?</h3>
+                <p>Our conversions use standard conversion factors and provide results with high precision. For scientific or critical applications, we recommend verifying with specialized equipment.</p>
+            </div>
+        </section>
+    </div>
 
-/* Tabs */
-.tab-container {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: var(--box-shadow);
-    margin-bottom: 30px;
-    overflow: hidden;
-}
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Convert Anything</h3>
+                <p>A free online tool for quick and accurate unit conversions. Perfect for students, professionals, and anyone needing to convert measurements.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#" class="tab-link" data-tab="weight">Weight Converter</a></li>
+                    <li><a href="#" class="tab-link" data-tab="length">Length Converter</a></li>
+                    <li><a href="#" class="tab-link" data-tab="volume">Volume Converter</a></li>
+                    <li><a href="#" class="tab-link" data-tab="temperature">Temperature Converter</a></li>
+                    <li><a href="#" class="tab-link" data-tab="data">Data Size Converter</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Have suggestions or found an issue?</p>
+                <p><a href="mailto:contact@convertanything.com">Email us</a></p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Convert Anything | All Rights Reserved</p>
+        </div>
+    </footer>
 
-.tabs {
-    display: flex;
-    flex-wrap: wrap;
-    border-bottom: 1px solid var(--border-color);
-    background-color: #f1f3f4;
-}
-
-.tab-btn {
-    padding: 15px 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--text-color);
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    border-bottom: 3px solid transparent;
-}
-
-.tab-btn:hover {
-    background-color: var(--hover-color);
-}
-
-.tab-btn.active {
-    border-bottom: 3px solid var(--primary-color);
-    color: var(--primary-color);
-}
-
-.icon {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.weight-icon {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10h12"/><path d="M12 16V8"/><circle cx="12" cy="12" r="10"/></svg>');
-}
-
-.ruler-icon {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 6H3"/><path d="M21 12H3"/><path d="M21 18H3"/></svg>');
-}
-
-.volume-icon {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16"/><path d="M4 15h16"/><path d="M4 11h16"/><path d="M4 7h16"/></svg>');
-}
-
-.temp-icon {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v10.5"/><circle cx="12" cy="15.5" r="3.5"/></svg>');
-}
-
-.data-icon {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v16"/><path d="M2 10h20"/></svg>');
-}
-
-.calc-icon {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg>');
-}
-
-.tab-content {
-    display: none;
-    padding: 30px;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-/* Converter Container */
-.converter-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.input-group {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 300px;
-}
-
-@media (max-width: 768px) {
-    .input-group {
-        max-width: none;
-    }
-}
-
-input[type="number"] {
-    padding: 12px 15px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 1.1rem;
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-select {
-    padding: 12px 15px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 1rem;
-    width: 100%;
-    background-color: white;
-}
-
-.equals {
-    font-size: 2rem;
-    font-weight: bold;
-    padding: 0 15px;
-    display: flex;
-    align-items: center;
-}
-
-.formula-container {
-    background-color: #f8f9fa;
-    padding: 15px;
-    border-radius: 5px;
-    text-align: center;
-    margin-top: 20px;
-}
-
-/* Calculator */
-.calculator-container {
-    max-width: 320px;
-    margin: 0 auto 30px;
-    background: #f1f3f4;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: var(--box-shadow);
-}
-
-.calculator-display {
-    background-color: var(--dark-color);
-    padding: 20px;
-    text-align: right;
-}
-
-#calculator-result {
-    width: 100%;
-    background: none;
-    border: none;
-    font-size: 2rem;
-    color: white;
-    text-align: right;
-}
-
-.calculator-keys {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background-color: #dadce0;
-}
-
-.calculator-key {
-    padding: 20px 0;
-    background-color: white;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.calculator-key:hover {
-    background-color: var(--hover-color);
-}
-
-.key-operator {
-    background-color: #dfe1e5;
-}
-
-.key-equals {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.key-equals:hover {
-    background-color: var(--primary-dark);
-}
-
-.key-zero {
-    grid-column: span 2;
-}
-
-.calculator-info {
-    margin-top: 30px;
-}
-
-.calculator-info ul {
-    list-style-type: disc;
-    margin-left: 20px;
-}
-
-/* Common Conversions */
-.common-conversions {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: var(--box-shadow);
-    padding: 20px;
-    margin-bottom: 30px;
-}
-
-.common-conversions h3 {
-    margin-bottom: 15px;
-    text-align: center;
+    <script src="script.js"></script>
+</body>
+</html>
